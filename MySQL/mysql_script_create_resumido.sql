@@ -115,12 +115,10 @@ CREATE TABLE IF NOT EXISTS `CRUD`.`Produto` (
   `PrecoVenda` DOUBLE NOT NULL,
   `QntEstoque` INT NOT NULL,
   `QntEstoqueMin` INT NOT NULL,
-  `QntEstoqueMax` INT NOT NULL,
   `Categoria_idCategoria` INT NOT NULL,
   PRIMARY KEY (`idProduto`),
   FOREIGN KEY (`Categoria_idCategoria`) REFERENCES `CRUD`.`Categoria` (`idCategoria`))
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `CRUD`.`Fornecedor`

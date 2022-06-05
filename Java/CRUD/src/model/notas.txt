@@ -1,1 +1,0 @@
-criar um package model.<classe> para cada classe criada

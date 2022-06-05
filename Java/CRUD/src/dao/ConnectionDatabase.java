@@ -1,4 +1,4 @@
-package controller;
+package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,6 +23,11 @@ public class ConnectionDatabase {
 
 	private static final String STRING_CONNECTION = SERVER + DATABASE + USER + PASSWORD + USE_SSL + USE_TIMEZONE + SERVER_TIMEZONE;
 
+	/**
+	 * Método responsável por abrir a conexão com o banco de dados.
+	 * @return NULL: caso não ocorra nenhum erro durante a conexão com o DB </br>
+	 * STRING: caso ocorra algum erro, retorna uma string com o tipo de excessão e sua descrição
+	 */
 	public static String conectaBd() { // Abre a conexão com o banco de dados.
 		try {
 			conexao = DriverManager.getConnection(STRING_CONNECTION); // Atribui os dados de conexão ao objeto "conexao".
