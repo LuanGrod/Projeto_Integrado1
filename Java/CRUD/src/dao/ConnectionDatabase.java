@@ -1,7 +1,6 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
 public class ConnectionDatabase {
 	private static Connection conexao; // Atributo que receberá os dados para conexão com o banco de dados.

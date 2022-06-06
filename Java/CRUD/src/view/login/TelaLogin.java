@@ -12,32 +12,74 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.HeadlessException;
-
 import javax.swing.JPasswordField;
-import controller.UsuarioController;
 import dao.ConnectionDatabase;
-
-import model.usuario.Usuario;
+import logs.Registro;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @SuppressWarnings("serial")
 public class TelaLogin extends JFrame {
+
+	//atributos do SQL
+	private String instrucaoSql;
+	private Connection conexao;
+	private PreparedStatement pst; 
+	private ResultSet rs;
+
+	//data para os logs
+	//String dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
+	String dataHora;
+	
+	//elementos do frame
 	private JPanel cp;
 	private JTextField tfUsuario;
 	private JPasswordField pfSenha;
 
-	private ResultSet rs; // Atributo que recebe os dados retornados por uma instrução SQL.
+	/**Método que realiza o login
+	 * 
+	 */
+	@SuppressWarnings("deprecation")
+	public void validaLogin() {
+		dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
+		instrucaoSql = "SELECT login senha FROM usuario WHERE login = ? AND senha = ?";
 
+		//conecta com o bd
+		ConnectionDatabase.conectaBd();
+		conexao = ConnectionDatabase.getConexaoBd();
 
+		try {
+			pst = conexao.prepareStatement(instrucaoSql);
+			pst.setObject(1, tfUsuario.getText());
+			pst.setObject(2, pfSenha.getText());
+			rs = pst.executeQuery();
+			if(rs.next()) {
+				//emite log
+				Registro log = new Registro();
+				log.emitirRegistro(log.adicionarRegistro(dataHora + " - Login[" + tfUsuario.getText() + "]" + "\n"));
+				
+				//chama a tela principal
+				TelaPrincipal principal = new TelaPrincipal();
+				principal.setVisible(true);
+				fechaTela();
+			} else {
+				JOptionPane.showMessageDialog(null, "Usuário e/ou Senha inválido(s)");
+				tfUsuario.setText("");
+				pfSenha.setText("");
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage());
+		}
+	}
+
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -46,6 +88,7 @@ public class TelaLogin extends JFrame {
 			public void run() {
 				try {
 					TelaLogin frame = new TelaLogin();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,7 +104,7 @@ public class TelaLogin extends JFrame {
 		setResizable(false);
 		setBackground(Color.LIGHT_GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 343, 362);
+		setBounds(100, 100, 344, 362);
 		cp = new JPanel();
 		cp.setForeground(new Color(0, 0, 0));
 		cp.setToolTipText("");
@@ -83,42 +126,7 @@ public class TelaLogin extends JFrame {
 		btConfirmar.setBounds(47, 264, 96, 32);
 		btConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rs = new UsuarioController().validaLogin(tfUsuario.getText(), pfSenha.getText());
-				try {
-					if(rs.next()) {
-						TelaPrincipal principal = new TelaPrincipal();
-						TelaLogin telaLogin = new TelaLogin();
-						telaLogin.setVisible(false);
-						principal.setVisible(true);
-					} else
-					JOptionPane.showMessageDialog(null, "Usuário e/ou senha invalido(s)");
-				} catch (Exception ex) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "Tipo de Exceção: " + ex.getClass().getSimpleName() + "\nMensagem: " + ex.getMessage());
-				}
-				
-				/*
-				try {
-					instrucaoSql = "select login senha from usuario where login = ? and senha = ?";
-					String excecao = ConnectionDatabase.conectaBd(); // Abre a conexão com o banco de dados.
-					pst = new ConnectionDatabase().getConexaoBd().prepareStatement(instrucaoSql);
-					Usuario usuario = new Usuario();
-					usuario.setLogin(tfUsuario.getText());
-					usuario.setSenha(pfSenha.getText());;
-					pst.setObject(1, usuario.getLogin());
-					pst.setObject(2, usuario.getSenha());
-					rs = pst.executeQuery();
-					if(rs.next()) {
-						TelaPrincipal principal = new TelaPrincipal();
-						TelaLogin telaLogin = new TelaLogin();
-						telaLogin.setVisible(false);
-						principal.setVisible(true);
-					} else
-					JOptionPane.showMessageDialog(null, "Usuário e/ou senha invalido(s)");
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Tipo de Exceção: " + ex.getClass().getSimpleName() + "\nMensagem: " + ex.getMessage());
-				}
-				 */
+				validaLogin();
 			}
 		});
 
@@ -146,4 +154,6 @@ public class TelaLogin extends JFrame {
 
 
 	}
+
+	protected void fechaTela() {this.dispose();}
 }

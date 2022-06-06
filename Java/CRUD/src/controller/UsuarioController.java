@@ -1,12 +1,39 @@
 package controller;
 
 import java.sql.ResultSet;
+
+import javax.swing.JOptionPane;
+
+import dao.ConnectionDatabase;
 import dao.UsuarioDao;
-import model.usuario.Usuario;
+import model.usuario.Usuario; 
 
 public class UsuarioController {
 	private Usuario usuario;
 
+	/**
+	 * parte lógica do Login
+	 * @param login
+	 * @param senha
+	 * @return o status da validação
+	 */
+	public boolean confirmaCredenciais(String login, String senha) {
+		ResultSet rs = new UsuarioController().validaLogin(login, senha);
+		boolean status = false;
+		try {
+			if(rs.next()) {
+				status = true;
+			} else
+				status = false;
+			ConnectionDatabase.getConexaoBd().close();
+		} catch (Exception ex) {
+			//JOptionPane.showMessageDialog(null, "Tipo de Exceção: " + ex.getClass().getSimpleName() + "\nMensagem: " + ex.getMessage());
+		}
+		
+		return status;
+	}
+	
+	
 	/**
 	 * Transforma os atributos recebidos como parametro pelo TextField da TelaLogin em um objeto Usuario
 	 * @param login recebido pelo tfUsuario
@@ -15,15 +42,13 @@ public class UsuarioController {
 	 */
 	public ResultSet validaLogin(String login, String senha){
 		usuario = new Usuario();
+		usuario.setId(null);
 		usuario.setLogin(login);
 		usuario.setSenha(senha);
 		
 		ResultSet rs = new UsuarioDao().validaLogin(usuario);
 		return rs;
 	}
-	
-	
-	
 	
 	
 	

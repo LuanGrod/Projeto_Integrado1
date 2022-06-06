@@ -10,16 +10,16 @@ import model.pessoa.Pessoa;
  *
  */
 public class Usuario {
-	private int id;
+	private Integer id;
 	private String login;
 	private String senha;
 	private Pessoa pessoa;
 	private Cargo cargo;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getLogin() {
@@ -46,6 +46,8 @@ public class Usuario {
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
 	}
+	
+	
 	
 	
 }

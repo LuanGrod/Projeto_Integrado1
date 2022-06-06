@@ -9,14 +9,14 @@ import model.pessoa.Pessoa;
  *
  */
 public class Cliente {
-	private int id;
+	private Integer id;
 	private Pessoa pessoa;
 	
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public Pessoa getPessoa() {

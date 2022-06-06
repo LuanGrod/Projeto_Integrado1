@@ -1,11 +1,18 @@
+//nao ta sendo usado atualmente
+
 package dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import logs.Registro;
 
 public class GenericDao {
 	private PreparedStatement comando; // Atributo usado para preparar e executar instruções SQL.
 	private ResultSet registros; // Atributo que recebe os dados retornados por uma instrução SQL.
+	String dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
 
 	/**
 	 * Método generico usado para inserir uma tupla em uma tabela do banco de dados.
@@ -17,29 +24,23 @@ public class GenericDao {
 	 */
 	protected String insere(String instrucaoSql, Object... parametros) {
 		try {
-			String excecao = ConnectionDatabase.conectaBd(); // Abre a conexão com o banco de dados.
+			String excecao = ConnectionDatabase.conectaBd();
 			if (excecao == null) {
-				// Obtém os dados de conexão com o banco de dados e prepara a instrução SQL.
 				comando = ConnectionDatabase.getConexaoBd().prepareStatement(instrucaoSql);
-
-				// Associa cada parâmetro Object recebido ao objeto "comando".
 				for (int i = 0; i < parametros.length; i++)
-					// 1º argumento: posição do parâmetro na instrução SQL; 2º argumento: parâmetro.
-					// Para objetos Funcionario: 1) Nome, 2) Sexo, 3) Salario, 4) PlanoSaude, 5) IdCargo
 					comando.setObject(i + 1, parametros[i]);
 
-				comando.execute(); // Executa a instrução SQL.
-
-				comando.close(); // Libera os recursos usados pelo objeto PreparedStatement.
-				// Libera os recursos usados pelo objeto Connection e fecha a conexão com o banco de dados.
+				comando.execute(); 
+				comando.close(); 
 				ConnectionDatabase.getConexaoBd().close();
+				
+				new Registro().adicionarRegistro(dataHora + " - InserirUsuario\nInstruçãoSQL = " + instrucaoSql);
 			} else
-				return excecao; // Caso ocorra exceção ao tentar conectar com o banco de dados.
+				return excecao;
 		} catch (Exception e) {
-			// Caso ocorra qualquer tipo de exceção.
 			return "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage(); 
 		}
-		return null; // Se o registro foi inserido com sucesso.
+		return null;
 	}
 
 	/**
@@ -51,19 +52,17 @@ public class GenericDao {
 	 */
 	protected ResultSet consulta(String instrucaoSql, Object... parametros) {
 		try {
-			String excecao = ConnectionDatabase.conectaBd(); // Abre a conexão com o banco de dados.
+			String excecao = ConnectionDatabase.conectaBd();
 			if (excecao == null) {
-				// Obtém os dados de conexão com o banco de dados e prepara a instrução SQL.
 				comando = ConnectionDatabase.getConexaoBd().prepareStatement(instrucaoSql);
-
-				// Associa cada parâmetro Object recebido ao objeto "comando".
 				for (int i = 0; i < parametros.length; i++)
-					// 1º argumento: posição do parâmetro na instrução SQL; 2º argumento: parâmetro.
-					// Para objetos Funcionario: 1) Nome, 2) Sexo, 3) Salario, 4) PlanoSaude, 5) IdCargo
 					comando.setObject(i + 1, parametros[i]);
-				
-				registros = comando.executeQuery(); // Executa a instrução SQL.
 
+				registros = comando.executeQuery();
+				
+				Registro log = new Registro();
+				log.emitirRegistro(log.adicionarRegistro(dataHora + " - ConsultarUsuario\nInstruçãoSQL = " + instrucaoSql));
+			
 				return registros;
 			}
 		} catch (Exception e) {

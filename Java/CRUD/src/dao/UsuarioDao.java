@@ -18,7 +18,7 @@ public class UsuarioDao extends GenericDao{
 	 * @return os dados da consulta (ResultSet)
 	 */
 	public ResultSet validaLogin(Usuario usuario) {
-		instrucaoSql = "select login senha from usuario where login = ? and senha = ?";
+		instrucaoSql = "SELECT login senha FROM usuario WHERE login = ? AND senha = ?";
 		return consulta(instrucaoSql, usuario.getLogin(), usuario.getSenha());
 	}
 

@@ -9,7 +9,7 @@ import model.categoria.Categoria;
  *
  */
 public class Produto {
-	private int id;
+	private Integer id;
 	private String nome;
 	private double precoCusto;
 	private double precoVenda;
@@ -17,10 +17,10 @@ public class Produto {
 	private int qtdEstoqueMin;
 	private Categoria categoria;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getNome() {
