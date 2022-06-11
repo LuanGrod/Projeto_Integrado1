@@ -1,1 +1,0 @@
-criar um package view para o frame principal (index) e outro package view.<classe> para cada frame externo;

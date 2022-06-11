@@ -13,29 +13,14 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JPasswordField;
-import dao.ConnectionDatabase;
-import logs.Registro;
+import dao.LoginDao;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
 
 @SuppressWarnings("serial")
 public class TelaLogin extends JFrame {
-
-	//atributos do SQL
-	private String instrucaoSql;
-	private Connection conexao;
-	private PreparedStatement pst; 
-	private ResultSet rs;
-
-	//data para os logs
-	//String dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
-	String dataHora;
 	
 	//elementos do frame
 	private JPanel cp;
@@ -45,7 +30,7 @@ public class TelaLogin extends JFrame {
 	/**Método que realiza o login
 	 * 
 	 */
-	@SuppressWarnings("deprecation")
+	/*@SuppressWarnings("deprecation")
 	public void validaLogin() {
 		dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
 		instrucaoSql = "SELECT login senha FROM usuario WHERE login = ? AND senha = ?";
@@ -76,14 +61,14 @@ public class TelaLogin extends JFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage());
 		}
-	}
+	}*/
 
 	
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -95,7 +80,7 @@ public class TelaLogin extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -126,9 +111,22 @@ public class TelaLogin extends JFrame {
 		btConfirmar.setBounds(47, 264, 96, 32);
 		btConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				validaLogin();
+				LoginDao login = new LoginDao();
+				login.validaLogin(tfUsuario.getText(), pfSenha.getText());
+				
+				if (login.getExcecao() == null) {
+					TelaPrincipal principal = new TelaPrincipal();
+					principal.setVisible(true);
+					fechaTela();
+				}else {
+					JOptionPane.showMessageDialog(null, login.getExcecao());
+					tfUsuario.setText("");
+					pfSenha.setText("");
+				}
 			}
 		});
+		
+
 
 		JButton btCancelar = new JButton("Cancelar");
 		btCancelar.setBounds(174, 264, 96, 32);

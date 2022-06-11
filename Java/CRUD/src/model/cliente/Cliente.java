@@ -1,6 +1,5 @@
 package model.cliente;
 
-import model.pessoa.Pessoa;
 
 /**
  * <p>Classe de domínio da entidade Cliente. Juntas, as classes de domínio modelam  
@@ -10,21 +9,9 @@ import model.pessoa.Pessoa;
  */
 public class Cliente {
 	private Integer id;
-	private Pessoa pessoa;
 	
 	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
-	}
+
 	
 
 	/*
