@@ -19,7 +19,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import view.funcionario.CadastroUsuario;
+import view.usuario.CadastroUsuario;
 
 @SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame {

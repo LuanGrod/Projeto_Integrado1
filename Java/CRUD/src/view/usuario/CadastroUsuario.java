@@ -1,4 +1,4 @@
-package view.funcionario;
+package view.usuario;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
+import javax.swing.JComboBox;
 
 public class CadastroUsuario extends JFrame{
 
