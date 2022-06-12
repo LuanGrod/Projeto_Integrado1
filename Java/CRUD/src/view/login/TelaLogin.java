@@ -1,22 +1,23 @@
 package view.login;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import view.main.TelaPrincipal;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.JPasswordField;
-import dao.LoginDao;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import dao.LoginDao;
+import view.main.TelaPrincipal;
 
 
 @SuppressWarnings("serial")
@@ -68,7 +69,7 @@ public class TelaLogin extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -80,7 +81,7 @@ public class TelaLogin extends JFrame {
 				}
 			}
 		});
-	}*/
+	}
 
 	/**
 	 * Create the frame.
@@ -112,12 +113,14 @@ public class TelaLogin extends JFrame {
 		btConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoginDao login = new LoginDao();
-				login.validaLogin(tfUsuario.getText(), pfSenha.getText());
+				//recebe o cargo do login para fazer a gestão de acesso
+				int cargo = login.validaLogin(tfUsuario.getText(), pfSenha.getText());
 				
 				if (login.getExcecao() == null) {
-					TelaPrincipal principal = new TelaPrincipal();
+					TelaPrincipal principal = new TelaPrincipal(cargo);
 					principal.setVisible(true);
 					fechaTela();
+					
 				}else {
 					JOptionPane.showMessageDialog(null, login.getExcecao());
 					tfUsuario.setText("");

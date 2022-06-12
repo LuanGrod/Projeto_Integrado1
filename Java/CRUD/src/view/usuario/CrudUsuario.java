@@ -8,7 +8,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JComboBox;
 
-public class CadastroUsuario extends JFrame{
+public class CrudUsuario extends JFrame{
 
 	private JFrame frame;
 
@@ -16,7 +16,7 @@ public class CadastroUsuario extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public CadastroUsuario() {
+	public CrudUsuario() {
 		setTitle("Cadastrar Funcionario");
 		setSize(500, 335);
 		setLocationRelativeTo(null);

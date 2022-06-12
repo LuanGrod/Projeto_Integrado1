@@ -15,11 +15,11 @@ public class LoginDao extends GenericDao{
 	private ResultSet rs;
 	private static String excecao = null; 
 
-	public void validaLogin(String login, String senha) {
+	public int validaLogin(String login, String senha) {
 		//String dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
 		String dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
-		instrucaoSql = "SELECT login senha FROM usuario WHERE login = ? AND senha = ?";
-
+		instrucaoSql = "SELECT login, senha, Cargo_idCargo FROM usuario WHERE login = ? AND senha = ?";
+		int cargo = 0;
 		
 	
 		try {
@@ -33,16 +33,21 @@ public class LoginDao extends GenericDao{
 				rs = pst.executeQuery();
 				
 				if(rs.next()) {
+					cargo = rs.getInt(3);
 					Registro log = new Registro();
 					log.emitirRegistro(log.adicionarRegistro(dataHora + " - Login[" + login + "]" + "\n"));
+					if (cargo == 1) {
+						
+					}
 					conexao.close();
 				}else {
 					excecao = "Usuário e/ou Senha inválido(s)";
 				}
 			}
-		}
-		 	catch (Exception e) {
-		 		excecao = "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage();		}
+		} catch (Exception e) {
+		 		excecao = "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage();		
+		 	}
+		return cargo;
 	}
 	
 	public String getExcecao() { //retorna a exceção da validação de login

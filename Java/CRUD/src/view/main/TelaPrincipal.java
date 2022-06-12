@@ -19,17 +19,17 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import view.usuario.CadastroUsuario;
+import view.usuario.CrudUsuario;
 
 @SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame {
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 
 	/**
 	 * Create the frame.
 	 */
-	public TelaPrincipal() {
+	public TelaPrincipal(int cargo) {
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("ERP");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,10 +52,33 @@ public class TelaPrincipal extends JFrame {
 		mnCadastro.add(miCliente);
 		
 		JMenuItem miFuncionario = new JMenuItem("Funcion\u00E1rio");
+		miFuncionario.setEnabled(false);
+		if (cargo == 1) {
+			miFuncionario.setEnabled(true);
+		}
 		miFuncionario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK));
 		mnCadastro.add(miFuncionario);
 		
+		JMenuItem miProduto = new JMenuItem("Produto");
+		miProduto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
+		mnCadastro.add(miProduto);
+		miProduto.setEnabled(false);
+		if (cargo == 1) {
+			miProduto.setEnabled(true);
+		}
+		
+		JMenuItem miForncecedor = new JMenuItem("Fornecedor");
+		mnCadastro.add(miForncecedor);
+		miForncecedor.setEnabled(false);
+		if (cargo == 1) {
+			miForncecedor.setEnabled(true);
+		}
+		
 		JMenu mnRelatorio = new JMenu("Relat\u00F3rio");
+		mnRelatorio.setEnabled(false);
+		if (cargo == 1) {
+			mnRelatorio.setEnabled(true);
+		}
 		menuBar.add(mnRelatorio);
 		
 		JMenu mnAjuda = new JMenu("Ajuda");
@@ -102,14 +125,9 @@ public class TelaPrincipal extends JFrame {
 	private void miFuncionarioAction() { 
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
-			public void run(){ new CadastroUsuario().setVisible(true); }});
+			public void run(){ new CrudUsuario().setVisible(true); }});
 	}
-	
-	public static void main(String[] args) { // Início da aplicação.
-		SwingUtilities.invokeLater(new Runnable(){
-			@Override
-			public void run(){ new TelaPrincipal().setVisible(true); }});
-	}
+
 	
 	protected void fechaTela() {this.dispose();}
 }
