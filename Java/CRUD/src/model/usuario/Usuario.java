@@ -28,22 +28,6 @@ public class Usuario {
 	public Usuario() {
 	}
 	
-	public Usuario(Integer id, String login, String senha, String cpf, String nome, String telefone, String email,
-			String rua, String bairro, String cidade, String cep, String estado, Cargo cargo) {
-		this.id = id;
-		this.login = login;
-		this.senha = senha;
-		this.cpf = cpf;
-		this.nome = nome;
-		this.telefone = telefone;
-		this.email = email;
-		this.rua = rua;
-		this.bairro = bairro;
-		this.cidade = cidade;
-		this.cep = cep;
-		this.estado = estado;
-		this.cargo = cargo;
-	}
 	public Integer getId() {
 		return id;
 	}

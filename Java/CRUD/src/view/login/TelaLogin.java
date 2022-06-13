@@ -28,43 +28,6 @@ public class TelaLogin extends JFrame {
 	private JTextField tfUsuario;
 	private JPasswordField pfSenha;
 
-	/**Método que realiza o login
-	 * 
-	 */
-	/*@SuppressWarnings("deprecation")
-	public void validaLogin() {
-		dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
-		instrucaoSql = "SELECT login senha FROM usuario WHERE login = ? AND senha = ?";
-
-		//conecta com o bd
-		ConnectionDatabase.conectaBd();
-		conexao = ConnectionDatabase.getConexaoBd();
-
-		try {
-			pst = conexao.prepareStatement(instrucaoSql);
-			pst.setObject(1, tfUsuario.getText());
-			pst.setObject(2, pfSenha.getText());
-			rs = pst.executeQuery();
-			if(rs.next()) {
-				//emite log
-				Registro log = new Registro();
-				log.emitirRegistro(log.adicionarRegistro(dataHora + " - Login[" + tfUsuario.getText() + "]" + "\n"));
-				
-				//chama a tela principal
-				TelaPrincipal principal = new TelaPrincipal();
-				principal.setVisible(true);
-				fechaTela();
-			} else {
-				JOptionPane.showMessageDialog(null, "Usuário e/ou Senha inválido(s)");
-				tfUsuario.setText("");
-				pfSenha.setText("");
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage());
-		}
-	}*/
-
-	
 	
 	/**
 	 * Launch the application.
@@ -114,6 +77,7 @@ public class TelaLogin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				LoginDao login = new LoginDao();
 				//recebe o cargo do login para fazer a gestão de acesso
+				@SuppressWarnings("deprecation")
 				int cargo = login.validaLogin(tfUsuario.getText(), pfSenha.getText());
 				
 				if (login.getExcecao() == null) {
