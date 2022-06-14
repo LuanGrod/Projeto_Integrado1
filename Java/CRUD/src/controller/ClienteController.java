@@ -5,6 +5,7 @@ import java.util.List;
 
 import dao.ClienteDao;
 import model.cliente.Cliente;
+import model.cliente.ClienteValidacao;
 
 
 public class ClienteController {
@@ -39,7 +40,6 @@ public class ClienteController {
 	}
 	
 	public String getExcecao() {
-    	// Retorna a exceção lançada ao recuperar os cargos (ao abrir a tela "Cadastro de Funcionário").
     	return new ClienteDao().getExcecao();
     }
 }

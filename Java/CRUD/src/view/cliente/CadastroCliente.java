@@ -136,7 +136,7 @@ public class CadastroCliente extends JFrame{
 				btnCadastrarCliente();
 			}
 		});
-		btnCadastroCliente.setBounds(304, 251, 124, 37);
+		btnCadastroCliente.setBounds(304, 251, 140, 37);
 		getContentPane().add(btnCadastroCliente);
 		initialize();
 	}

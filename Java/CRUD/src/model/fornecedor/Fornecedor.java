@@ -8,6 +8,7 @@ package model.fornecedor;
  */
 public class Fornecedor {
 	private Integer id;
+	private String nome;
 	private String cnpj;
 	private String telefone;
 	private String email;
@@ -15,6 +16,15 @@ public class Fornecedor {
 	public Integer getId() {
 		return id;
 	}
+	
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
