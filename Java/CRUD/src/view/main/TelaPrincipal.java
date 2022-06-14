@@ -15,6 +15,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import view.cliente.CadastroCliente;
 import view.usuario.CadastroUsuario;
 
 
@@ -50,7 +51,6 @@ public class TelaPrincipal extends JFrame {
 		
 		JMenuItem miFuncionario = new JMenuItem("Funcion\u00E1rio");
 		miFuncionario.setEnabled(false);
-
 		miFuncionario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK));
 		mnCadastro.add(miFuncionario);
 		
@@ -91,15 +91,30 @@ public class TelaPrincipal extends JFrame {
 		menuBar.add(mnOpcoes);
 		menuBar.add(mnSair);
 		
-		miFuncionario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) { miFuncionarioAction(); }
+		miCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miClienteAction();
+			}
 		});
+		
+		miFuncionario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { 
+				miFuncionarioAction(); 
+				}
+		});
+		
 	}
 	
 	private void miFuncionarioAction() { 
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
 			public void run(){ new CadastroUsuario().setVisible(true); }});
+	}
+	
+	private void miClienteAction() { 
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run(){ new CadastroCliente().setVisible(true); }});
 	}
 
 	
