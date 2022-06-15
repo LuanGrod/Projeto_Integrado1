@@ -14,7 +14,6 @@ public class Produto {
 	private double precoCusto;
 	private double precoVenda;
 	private int qtdEstoque;
-	private int qtdEstoqueMin;
 	private Categoria categoria;
 	
 	public Integer getId() {
@@ -47,12 +46,7 @@ public class Produto {
 	public void setQtdEstoque(int qtdEstoque) {
 		this.qtdEstoque = qtdEstoque;
 	}
-	public int getQtdEstoqueMin() {
-		return qtdEstoqueMin;
-	}
-	public void setQtdEstoqueMin(int qtdEstoqueMin) {
-		this.qtdEstoqueMin = qtdEstoqueMin;
-	}
+	
 	public Categoria getCategoria() {
 		return categoria;
 	}

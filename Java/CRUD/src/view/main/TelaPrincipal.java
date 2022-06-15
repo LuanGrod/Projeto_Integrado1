@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 
 import view.cliente.CadastroCliente;
 import view.fornecedor.CadastroFornecedor;
+import view.produto.CadastroProduto;
 import view.usuario.CadastroUsuario;
 
 
@@ -125,6 +126,12 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		
+		miProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miProdutoAction();
+			}
+		});
+		
 	}
 	
 	private void miFuncionarioAction() { 
@@ -144,6 +151,14 @@ public class TelaPrincipal extends JFrame {
 			@Override
 			public void run(){ new CadastroFornecedor().setVisible(true); }});
 	}
+	
+	private void miProdutoAction() {
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run(){ new CadastroProduto().setVisible(true);}});
+	}
+	
+	
 
 	
 	protected void fechaTela() {this.dispose();}

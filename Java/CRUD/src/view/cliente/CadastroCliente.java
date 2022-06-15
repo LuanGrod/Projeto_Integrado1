@@ -173,8 +173,3 @@ public class CadastroCliente extends JFrame{
 		frmCadastroCliente.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
-
-
-
-
-		
