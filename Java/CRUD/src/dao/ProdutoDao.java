@@ -21,16 +21,38 @@ public class ProdutoDao extends GenericDao{
 		return insere(instrucaoSql, produto.getNome(), produto.getPrecoCusto(), produto.getPrecoVenda(), produto.getQtdEstoque(), produto.getCategoria().getId());
 	}
 	
-	/*public List<String> recuperaForncedores(){
-		Fornecedor fornecedor;
-		
-		List<Fornecedor> fornecedores = new ArrayList<>();
-		instrucaoSql = "SELECT * FROM FORNECEDOR";
+	public List<Produto> consultaProdutos(){
+		Produto produto;
+		Categoria categoria;
+		List<Produto> produtos = new ArrayList<>();
+		instrucaoSql = "SELECT * FROM PRODUTO";
 		
 		try {
 			excecao = ConnectionDatabase.conectaBd();
+			if(excecao == null) {
+				comando = ConnectionDatabase.getConexaoBd().prepareStatement(instrucaoSql);
+                registros = comando.executeQuery();
+                
+                while (registros.next()) {
+                	produto = new Produto();
+                	produto.setNome(registros.getString("nome"));
+                	produto.setPrecoCusto(registros.getDouble("precoCusto"));
+                	produto.setPrecoVenda(registros.getDouble("precoVenda"));
+                	produto.setQtdEstoque(registros.getInt("QntEstoque")); 
+                	
+                	categoria = new Categoria();
+                	categoria.setId(registros.getInt("Categoria_idCategoria"));
+                	produto.setCategoria(categoria);
+                	produtos.add(produto);
+                }
+                
+			}
+		}catch(Exception e) {
+			excecao = "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage();
+	    	produtos = null; 
 		}
-	}*/
+		return produtos;
+	}
 	
 	public List<Categoria> recuperaCategorias(){
 		Categoria categoria;

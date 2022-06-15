@@ -143,10 +143,12 @@ public class CadastroUsuario extends JFrame{
 		tfCEP.setColumns(10);
 		
 		JLabel lblNewLabel_10 = new JLabel("Cidade");
+		lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNewLabel_10.setBounds(25, 273, 46, 14);
 		getContentPane().add(lblNewLabel_10);
 		
 		JLabel lblNewLabel_11 = new JLabel("Estado");
+		lblNewLabel_11.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNewLabel_11.setBounds(251, 273, 46, 14);
 		getContentPane().add(lblNewLabel_11);
 		

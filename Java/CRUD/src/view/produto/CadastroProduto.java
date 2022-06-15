@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.ProdutoController;
 import model.categoria.Categoria;
+import java.awt.Font;
 
 public class CadastroProduto extends JFrame {
 
@@ -40,18 +41,22 @@ public class CadastroProduto extends JFrame {
 
 		
 		JLabel lblNewLabel = new JLabel("Nome");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNewLabel.setBounds(30, 30, 46, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Preco Custo");
-		lblNewLabel_1.setBounds(30, 153, 60, 14);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel_1.setBounds(30, 153, 78, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Preco Venda");
-		lblNewLabel_2.setBounds(30, 192, 60, 14);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel_2.setBounds(30, 192, 78, 14);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Quantidade em Estoque");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNewLabel_3.setBounds(30, 110, 148, 14);
 		contentPane.add(lblNewLabel_3);
 		
@@ -61,7 +66,7 @@ public class CadastroProduto extends JFrame {
 		tfNome.setColumns(10);
 		
 		tfQntEstq = new JTextField();
-		tfQntEstq.setBounds(170, 106, 51, 20);
+		tfQntEstq.setBounds(158, 107, 51, 20);
 		contentPane.add(tfQntEstq);
 		tfQntEstq.setColumns(10);
 		
@@ -76,6 +81,7 @@ public class CadastroProduto extends JFrame {
 		contentPane.add(tfPrecoCusto);
 		
 		cbCategoria = new JComboBox<>();
+		cbCategoria.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		cbCategoria.setBounds(95, 67, 114, 22);
 		contentPane.add(cbCategoria);
 		List<Categoria> categorias = new ArrayList<>();
@@ -87,6 +93,7 @@ public class CadastroProduto extends JFrame {
 		}
 			
 		JButton btnCriaCategoria = new JButton("Criar nova categoria");
+		btnCriaCategoria.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnCriaCategoria.setBounds(242, 67, 136, 23);
 		contentPane.add(btnCriaCategoria);
 		
@@ -96,8 +103,13 @@ public class CadastroProduto extends JFrame {
 				btnCadastrarProduto();
 			}
 		});
-		btnCadastraProduto.setBounds(270, 211, 130, 28);
+		btnCadastraProduto.setBounds(270, 211, 148, 28);
 		contentPane.add(btnCadastraProduto);
+		
+		JLabel lblNewLabel_4 = new JLabel("Categoria");
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel_4.setBounds(30, 71, 55, 14);
+		contentPane.add(lblNewLabel_4);
 		
 		
 	}

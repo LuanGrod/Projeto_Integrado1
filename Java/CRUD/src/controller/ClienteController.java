@@ -5,7 +5,6 @@ import java.util.List;
 
 import dao.ClienteDao;
 import model.cliente.Cliente;
-import model.cliente.ClienteValidacao;
 
 
 public class ClienteController {

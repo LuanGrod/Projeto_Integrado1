@@ -32,7 +32,9 @@ public class ProdutoController  {
 		 produto.setPrecoVenda(PrecoVenda);
 		 produto.setQtdEstoque(QntEstoque);
 		 produto.setCategoria(Categoria_idCategoria);
+		 //erros = ProdutoValidacao().ValidaProduto();
 	 }
+	 
 	 
 	 public  List<Categoria> recuperaCategorias(){
 		 return new ProdutoDao().recuperaCategorias();

@@ -88,7 +88,6 @@ public class UsuarioDao extends GenericDao{
 	        	excecao = "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage();
 	        	cargos = null; // Caso ocorra qualquer exceção.
 	        }
-	        System.out.println(cargos.get(1));
 	        return cargos; // Retorna o ArrayList de objetos Cargo.
 	}
 	
