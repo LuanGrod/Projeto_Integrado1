@@ -1,5 +1,6 @@
-alter table fornecedor
-add nome varchar(45) not null;
+alter table encomenda
+add column Situacao varchar(20);
+
 
 INSERT INTO `cargo` (`Descricao`, `Departamento`, `Salario`) VALUES ("Administrador Geral", "Administrativo", 3170.00);
 INSERT INTO `cargo` (`Descricao`, `Departamento`, `Salario`) VALUES ("Gerente", "Administrativo", 2250.00);
@@ -10,8 +11,15 @@ VALUES ("adm", "123", "28351059327", "Luiz Silva", "1197254566", "LuizSilva@gmai
  ("marco", "123", "28351152147", "Marco Vieira", "1197412566", "MarcoVieira@gmail.com", "Rua 2", "Bairro 2", "Sao paulo", "22222222", "SP", 2),
  ("vitor", "123", "28351152147", "vitor Vieira", "1132356226", "Vitor@gmail.com", "Rua 2", "Bairro 2", "Sao paulo", "22222222", "SP", 3);
 
+INSERT INTO fornecedor(cnpj, telefone, email, nome) values ( "12312321", "11982736352", "vigas@gmail.com", "Vigas+");
 
 INSERT INTO categoria (descricao) values("Madeira");
 INSERT INTO produto(nome, precoCusto, precoVenda, QntEstoque, QntEstoqueMin, Categoria_idCategoria) values ("chapa de madeira", 50, 80, 10, 5, 1);
 INSERT INTO produto_has_fornecedor values(3,1);
 
+select * from cliente;
+select * from categoria;
+select * from produto;
+select * from fornecedor;
+
+select * from encomenda;

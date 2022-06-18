@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
@@ -24,6 +25,7 @@ import view.encomenda.CadastroEncomenda;
 import view.fornecedor.CadastroFornecedor;
 import view.produto.CadastroProduto;
 import view.usuario.CadastroUsuario;
+import javax.swing.JButton;
 
 
 @SuppressWarnings("serial")
@@ -94,10 +96,12 @@ public class TelaPrincipal extends JFrame {
 		JMenu mnAjuda = new JMenu("Ajuda");
 		menuBar.add(mnAjuda);
 		
+		JMenu mnOpcoes = new JMenu("Op\u00E7\u00F5es");
+		menuBar.add(mnOpcoes);
 		
-		
-		JMenu mnSair = new JMenu("Sair");
-		menuBar.add(mnSair);
+		JMenuItem miSair = new JMenuItem("Sair");
+		miSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK));
+		mnOpcoes.add(miSair);
 		
 		
 		JLabel lblNewLabel = new JLabel("Dep\u00F3sito do Seu Z\u00E9");
@@ -142,7 +146,8 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		
-		mnSair.addActionListener(new ActionListener() {
+
+		miSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fechaTela();
 			}
@@ -179,7 +184,11 @@ public class TelaPrincipal extends JFrame {
 			@Override
 			public void run(){ new CadastroEncomenda().setVisible(true);}});
 	}
-
 	
-	protected void fechaTela() {this.dispose();}
+	private void fechaTela() {
+		int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Atenção", JOptionPane.YES_NO_OPTION);
+		if(sair == JOptionPane.YES_OPTION) {
+			System.exit(0);
+		}
+	}
 }
