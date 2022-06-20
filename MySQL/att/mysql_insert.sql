@@ -1,6 +1,15 @@
 alter table encomenda
 add column Situacao varchar(20);
 
+create table itensCarrinho(
+quantidade int not null,
+Produto_idProduto int not null,
+foreign key (Produto_idProduto) references Produto(idProduto)
+);
+
+CREATE VIEW lastPedido AS
+SELECT  max(idPedido)  as maxId
+FROM PEDIDO;
 
 INSERT INTO `cargo` (`Descricao`, `Departamento`, `Salario`) VALUES ("Administrador Geral", "Administrativo", 3170.00);
 INSERT INTO `cargo` (`Descricao`, `Departamento`, `Salario`) VALUES ("Gerente", "Administrativo", 2250.00);
@@ -17,9 +26,14 @@ INSERT INTO categoria (descricao) values("Madeira");
 INSERT INTO produto(nome, precoCusto, precoVenda, QntEstoque, QntEstoqueMin, Categoria_idCategoria) values ("chapa de madeira", 50, 80, 10, 5, 1);
 INSERT INTO produto_has_fornecedor values(3,1);
 
-select * from cliente;
-select * from categoria;
-select * from produto;
-select * from fornecedor;
 
-select * from encomenda;
+SET SQL_SAFE_UPDATES = 0;
+
+select * from carrinho;
+select * from pedido_has_produto;
+select * from pedido;
+
+
+
+
+

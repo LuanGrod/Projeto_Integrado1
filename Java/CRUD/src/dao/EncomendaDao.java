@@ -70,7 +70,6 @@ public class EncomendaDao extends GenericDao{
 		}catch(Exception e) {
 			excecao = "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage();
 			fornecedores = null; 
-			System.out.println(excecao);
 		}
 		return fornecedores;
 	}

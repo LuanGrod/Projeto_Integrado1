@@ -1,12 +1,16 @@
 package view.main;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -14,24 +18,31 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
-import dao.LoginDao;
+import controller.CarrinhoController;
+import controller.ProdutoController;
+import model.produto.Produto;
 import view.cliente.CadastroCliente;
 import view.encomenda.CadastroEncomenda;
 import view.fornecedor.CadastroFornecedor;
+import view.itemPedido.Carrinho;
 import view.produto.CadastroProduto;
 import view.usuario.CadastroUsuario;
-import javax.swing.JButton;
 
 
 @SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame {
 
-	public JPanel contentPane;
+	public JPanel contentPane, panelProd;
+	public JLabel lblProd, lblQntd, lblPreco;
+	private JTextField tfIdProd, tfQntd;
+	private Produto produto;
 
 	/**
 	 * Create the frame.
@@ -103,12 +114,50 @@ public class TelaPrincipal extends JFrame {
 		miSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK));
 		mnOpcoes.add(miSair);
 		
+		tfIdProd = new JTextField();
+		tfIdProd.setBounds(313, 256, 257, 33);
+		contentPane.add(tfIdProd);
+		tfIdProd.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Dep\u00F3sito do Seu Z\u00E9");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(297, 51, 306, 52);
-		contentPane.add(lblNewLabel);
+		JButton btnConsultar = new JButton("Consultar");
+		btnConsultar.setBounds(587, 261, 89, 23);
+		contentPane.add(btnConsultar);
+		
+		panelProd = new JPanel();
+		panelProd.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		panelProd.setBounds(313, 354, 315, 130);
+		contentPane.add(panelProd);
+		panelProd.setVisible(false);
+		panelProd.setLayout(null);
+		
+		lblProd = new JLabel("New label");
+		lblProd.setBounds(15, 54, 58, 15);
+		lblProd.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panelProd.add(lblProd);
+		
+		JButton btnAddCarrinho = new JButton("+");
+		btnAddCarrinho.setHorizontalAlignment(SwingConstants.LEFT);
+		btnAddCarrinho.setBounds(264, 52, 41, 23);
+		panelProd.add(btnAddCarrinho);
+		
+		lblQntd = new JLabel("Quantidade: ");
+		lblQntd.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblQntd.setBounds(107, 34, 74, 14);
+		panelProd.add(lblQntd);
+		
+		lblPreco = new JLabel("Preco:");
+		lblPreco.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblPreco.setBounds(107, 74, 74, 14);
+		panelProd.add(lblPreco);
+		
+		tfQntd = new JTextField("1");
+		tfQntd.setBounds(220, 53, 39, 20);
+		panelProd.add(tfQntd);
+		tfQntd.setColumns(10);
+		
+		JButton btnCarrinho = new JButton("Carrinho");
+		btnCarrinho.setBounds(430, 522, 89, 23);
+		contentPane.add(btnCarrinho);
 		
 		
 		if (cargo == 1 || cargo == 2) {
@@ -153,6 +202,26 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		
+
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnConsultarAction();
+			}
+		});
+		
+
+		btnAddCarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnAddCarrinhoAction();
+			}
+		});
+		
+
+		btnCarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnCarrinhoAction();
+			}
+		});
 	}
 	
 	private void miFuncionarioAction() { 
@@ -183,6 +252,42 @@ public class TelaPrincipal extends JFrame {
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
 			public void run(){ new CadastroEncomenda().setVisible(true);}});
+	}
+	
+	private void btnConsultarAction() {
+		produto = new ProdutoController().consultaProduto(Integer.parseInt(tfIdProd.getText()));
+		if (new ProdutoController().getExcecao() == null) { 
+			panelProd.setVisible(true);
+			lblProd.setText(produto.getNome());
+			lblQntd.setText("Quantidade: " + String.valueOf(produto.getQtdEstoque()));
+			lblPreco.setText("Preço: " + String.valueOf(produto.getPrecoVenda()));
+			
+			
+		} else { 
+			String mensagem = "Esse produto não existe";
+			JOptionPane.showMessageDialog(this, mensagem, "Erros", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	private void btnAddCarrinhoAction() {
+		List<String> erros = new ArrayList<String>();
+		erros = new CarrinhoController().insereItemCarrinho(Integer.parseInt(tfQntd.getText()), produto);
+		
+		if (erros.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
+			JOptionPane.showMessageDialog(this, "Produto adicionado ao carrinho", 
+					                      "Informação", JOptionPane.INFORMATION_MESSAGE);
+		} else { // Se o primeiro elemento do ArrayList não for null.
+			String mensagem = "Não foi possível adicionar o produto ao carrinho:\n";
+			for (String e : erros) // Cria uma mensagem contendo todos os erros armazenados no ArrayList.
+				mensagem = mensagem + e + "\n";
+			JOptionPane.showMessageDialog(this, mensagem, "Erros", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	private void btnCarrinhoAction() {
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run(){ new Carrinho().setVisible(true);}});
 	}
 	
 	private void fechaTela() {

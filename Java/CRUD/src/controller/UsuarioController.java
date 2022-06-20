@@ -51,6 +51,10 @@ public class UsuarioController {
     	// Recupera os cargos cadastrados no banco de dados para que sejam carregados no JComboBox Cargo.
 		return new UsuarioDao().recuperaCargos();		
     }
+    
+    public Usuario getUsuarioAtual() {
+    	return new UsuarioDao().getUsuarioAtual();
+    }
 
     public String getExcecao() {
     	// Retorna a exceção lançada ao recuperar os cargos (ao abrir a tela "Cadastro de Funcionário").

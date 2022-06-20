@@ -17,6 +17,10 @@ public class ClienteDao extends GenericDao{
 				cliente.getRua(), cliente.getBairro(), cliente.getCidade(), cliente.getCep(), cliente.getEstado());
 	}
 	
+	public Cliente findClienteByCpf() {
+		Cliente cliente = new Cliente();
+		return cliente;
+	}
 	
 	public String getExcecao() { 
 		return excecao;

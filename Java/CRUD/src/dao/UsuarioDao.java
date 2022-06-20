@@ -55,6 +55,12 @@ public class UsuarioDao extends GenericDao{
 		return usuarios;
 	}
 	
+	public Usuario getUsuarioAtual() {
+		Usuario usuario = new Usuario();
+		usuario.setId(new LoginDao().getIdUsuario());
+		return usuario;
+	}
+	
 	public List<Cargo> recuperaCargos(){
 		 Cargo cargo;
 	     List<Cargo> cargos = new ArrayList<Cargo>();

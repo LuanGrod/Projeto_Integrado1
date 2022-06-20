@@ -83,7 +83,42 @@ public class ProdutoDao extends GenericDao{
 	return categorias;
 }
 	
+	public Produto consultaProduto(int id) {
+		Produto produto = null;
+		instrucaoSql = "SELECT * FROM PRODUTO WHERE idProduto = ?";
+		
+		try {
+			excecao = ConnectionDatabase.conectaBd();
+			if (excecao == null) {
+                comando = ConnectionDatabase.getConexaoBd().prepareStatement(instrucaoSql);
+                comando.setObject(1, id);
+                registros = comando.executeQuery();
+                
+                if(registros.next()) {
+                	produto = new Produto();
+                	produto.setId(id);
+                	produto.setNome(registros.getString("nome"));
+                	produto.setPrecoVenda(registros.getDouble("PrecoVenda"));
+                	produto.setQtdEstoque(registros.getInt("QntEstoque"));
+                	
+                }else {
+                	excecao = "Esse produto não existe";
+                }
+		}
+			registros.close(); 
+            comando.close(); 
+            ConnectionDatabase.getConexaoBd().close();
+            
+	}catch (Exception e) {
+    	excecao = "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage();
+    	produto = null; 
+	}
+		return produto;
+	}
+	
 	public String getExcecao() { 
 		return excecao;
 	}
+
+
 }
