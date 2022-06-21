@@ -5,6 +5,7 @@ import model.produto.Produto;
 public class ItemCarrinho {
 	private int quantidade;
 	private Produto produto;
+
 	
 	
 	public int getQuantidade() {
@@ -19,6 +20,6 @@ public class ItemCarrinho {
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
-	
+
 	
 }

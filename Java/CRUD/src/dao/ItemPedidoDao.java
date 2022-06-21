@@ -8,7 +8,7 @@ import java.util.List;
 import model.itemPedido.ItemPedido;
 import model.pedido.Pedido;
 import model.produto.Produto;
-import view.itemPedido.Carrinho;
+import view.itemPedido.CarrinhoConsulta;
 
 public class ItemPedidoDao extends GenericDao{
 	private String instrucaoSql; // Atributo para armazenar a instrução SQL a ser executada.

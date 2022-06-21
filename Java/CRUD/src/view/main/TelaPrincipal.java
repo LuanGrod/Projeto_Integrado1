@@ -31,7 +31,7 @@ import model.produto.Produto;
 import view.cliente.CadastroCliente;
 import view.encomenda.CadastroEncomenda;
 import view.fornecedor.CadastroFornecedor;
-import view.itemPedido.Carrinho;
+import view.itemPedido.CarrinhoConsulta;
 import view.produto.CadastroProduto;
 import view.usuario.CadastroUsuario;
 
@@ -43,7 +43,7 @@ public class TelaPrincipal extends JFrame {
 	public JLabel lblProd, lblQntd, lblPreco;
 	private JTextField tfIdProd, tfQntd;
 	private Produto produto;
-
+	private JButton btnCarrinho;
 	/**
 	 * Create the frame.
 	 */
@@ -115,48 +115,50 @@ public class TelaPrincipal extends JFrame {
 		mnOpcoes.add(miSair);
 		
 		tfIdProd = new JTextField();
-		tfIdProd.setBounds(313, 256, 257, 33);
+		tfIdProd.setBounds(216, 229, 355, 33);
 		contentPane.add(tfIdProd);
 		tfIdProd.setColumns(10);
 		
-		JButton btnConsultar = new JButton("Consultar");
-		btnConsultar.setBounds(587, 261, 89, 23);
+		JButton btnConsultar = new JButton("Consultar Produto");
+		btnConsultar.setBounds(588, 234, 168, 22);
 		contentPane.add(btnConsultar);
 		
 		panelProd = new JPanel();
 		panelProd.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelProd.setBounds(313, 354, 315, 130);
+		panelProd.setBounds(264, 354, 355, 134);
 		contentPane.add(panelProd);
 		panelProd.setVisible(false);
 		panelProd.setLayout(null);
 		
 		lblProd = new JLabel("New label");
-		lblProd.setBounds(15, 54, 58, 15);
-		lblProd.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblProd.setBounds(10, 45, 121, 32);
+		lblProd.setFont(new Font("Tahoma", Font.BOLD, 16));
 		panelProd.add(lblProd);
 		
-		JButton btnAddCarrinho = new JButton("+");
+		JButton btnAddCarrinho = new JButton("Add");
 		btnAddCarrinho.setHorizontalAlignment(SwingConstants.LEFT);
-		btnAddCarrinho.setBounds(264, 52, 41, 23);
+		btnAddCarrinho.setBounds(284, 54, 51, 23);
 		panelProd.add(btnAddCarrinho);
 		
 		lblQntd = new JLabel("Quantidade: ");
 		lblQntd.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblQntd.setBounds(107, 34, 74, 14);
+		lblQntd.setBounds(136, 40, 94, 14);
 		panelProd.add(lblQntd);
 		
 		lblPreco = new JLabel("Preco:");
 		lblPreco.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblPreco.setBounds(107, 74, 74, 14);
+		lblPreco.setBounds(136, 80, 94, 14);
 		panelProd.add(lblPreco);
 		
 		tfQntd = new JTextField("1");
-		tfQntd.setBounds(220, 53, 39, 20);
+		tfQntd.setBounds(240, 55, 39, 20);
 		panelProd.add(tfQntd);
 		tfQntd.setColumns(10);
 		
-		JButton btnCarrinho = new JButton("Carrinho");
-		btnCarrinho.setBounds(430, 522, 89, 23);
+		btnCarrinho = new JButton("Carrinho");
+		btnCarrinho.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnCarrinho.setVisible(false);
+		btnCarrinho.setBounds(373, 526, 137, 46);
 		contentPane.add(btnCarrinho);
 		
 		
@@ -274,6 +276,7 @@ public class TelaPrincipal extends JFrame {
 		erros = new CarrinhoController().insereItemCarrinho(Integer.parseInt(tfQntd.getText()), produto);
 		
 		if (erros.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
+			btnCarrinho.setVisible(true);
 			JOptionPane.showMessageDialog(this, "Produto adicionado ao carrinho", 
 					                      "Informação", JOptionPane.INFORMATION_MESSAGE);
 		} else { // Se o primeiro elemento do ArrayList não for null.
@@ -287,7 +290,7 @@ public class TelaPrincipal extends JFrame {
 	private void btnCarrinhoAction() {
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
-			public void run(){ new Carrinho().setVisible(true);}});
+			public void run(){ new CarrinhoConsulta().setVisible(true);}});
 	}
 	
 	private void fechaTela() {

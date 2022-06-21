@@ -1,7 +1,7 @@
 alter table encomenda
 add column Situacao varchar(20);
 
-create table itensCarrinho(
+create table Carrinho(
 quantidade int not null,
 Produto_idProduto int not null,
 foreign key (Produto_idProduto) references Produto(idProduto)

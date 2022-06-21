@@ -17,7 +17,7 @@ public class PedidoController {
 		recebeDadosUsuario(null, data, usuario);
 		
 		erros.add(new PedidoDao().inserePedido(pedido));
-		erros.add(new ItemPedidoController().insereItemPedidoDoCarrinho());
+		erros.add(new ItemPedidoController().insereItemPedidoDoCarrinho()); 
 			
 		return erros;
 	}

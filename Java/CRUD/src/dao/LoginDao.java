@@ -16,7 +16,7 @@ public class LoginDao extends GenericDao{
 	private static String excecao = null; 
 	private static int cargo;
 	private static int id;
-
+ 
 	public int validaLogin(String login, String senha) {
 		//String dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
 		String dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
