@@ -41,4 +41,8 @@ public class ClienteController {
 	public String getExcecao() {
     	return new ClienteDao().getExcecao();
     }
+	
+    public List<Cliente> consultaClientes() {
+		return new ClienteDao().consultaClientes();
+    }
 }

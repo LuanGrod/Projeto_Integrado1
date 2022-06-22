@@ -22,6 +22,7 @@ public class ProdutoController  {
 		return erros;
 	}
 	
+	//???
 	 public void recebeDadosUsuario(Integer Id, String nome, double precoCusto, double PrecoVenda, int QntEstoque, Categoria Categoria_idCategoria) {
 		 produto = new Produto();
 		 erros = new ArrayList<>();
@@ -46,5 +47,15 @@ public class ProdutoController  {
 	 
 	 public String getExcecao() {
 	    	return new ProdutoDao().getExcecao();
-	    }
+	 }
+	 
+    //recupera 2.0
+    public List<Produto> selectProdutos() {
+		return new ProdutoDao().selectProdutos();
+    }
+
+    public List<Categoria> selectCategorias() {
+    	// Recupera os cargos cadastrados no banco de dados para que sejam carregados no JComboBox Cargo.
+		return new ProdutoDao().selectCategorias();		
+    }
 }

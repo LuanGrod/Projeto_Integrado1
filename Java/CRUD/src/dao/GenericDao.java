@@ -42,32 +42,4 @@ public class GenericDao {
 		}
 		return null;
 	}
-
-	/**
-	 * Método generico usado para realizar uma consulta ao banco de dados.
-	 * @param instrucaoSql Instrução SQL a ser executada.
-	 * @param parametros Valores dos campos da instrução SQL. As reticências no tipo Object 
-	 * indicam que "parametros" pode receber um número variável de argumentos Object. 
-	 * @return os dados da consulta (ResultSet)
-	 */
-	protected ResultSet consulta(String instrucaoSql, Object... parametros) {
-		try {
-			String excecao = ConnectionDatabase.conectaBd();
-			if (excecao == null) {
-				comando = ConnectionDatabase.getConexaoBd().prepareStatement(instrucaoSql);
-				for (int i = 0; i < parametros.length; i++)
-					comando.setObject(i + 1, parametros[i]);
-
-				registros = comando.executeQuery();
-				
-				Registro log = new Registro();
-				log.emitirRegistro(log.adicionarRegistro(dataHora + " - ConsultarUsuario\nInstruçãoSQL = " + instrucaoSql));
-			
-				return registros;
-			}
-		} catch (Exception e) {
-			System.out.println( "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage()); 
-		}
-		return registros;
-	}
 }
