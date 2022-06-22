@@ -76,6 +76,23 @@ public class CarrinhoModeloTabela extends AbstractTableModel{
 		return valor;
 	}
 	
+	@Override
+	public void setValueAt(Object valor, int linha, int coluna) { 
+		switch (coluna) { 
+		
+		case 3: // Coluna Salario
+			produtosCarrinho.get(linha).setQuantidade(Integer.parseInt(valor.toString())); 
+			break;
+		}
 
+		fireTableCellUpdated(linha, coluna);
+	}
+	
+	public void removeProdutoTabela(int linha) {
+    	produtosCarrinho.remove(linha);
+        fireTableRowsDeleted(linha, linha);
+    }
+	
+	
 	
 }

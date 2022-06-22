@@ -23,24 +23,33 @@ import controller.PedidoController;
 import controller.UsuarioController;
 import model.itemPedido.ItemCarrinho;
 import model.produto.Produto;
+import view.main.TelaPrincipal;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class CarrinhoConsulta extends JDialog {
 
 	
 	private static final long serialVersionUID = 1L;
 	private JTable tbCarrinho; 
+	private JLabel lblValorTotal;
 	private CarrinhoModeloTabela mtTabela;
 	private JScrollPane spTabela;
-	private Container cp;
+	private Container cp;	
+	private List<ItemCarrinho> produtosCarrinho;
+	private List <Produto> produtos;
+	private JTextField tfAlteraQntd;
+	
 	
 	public CarrinhoConsulta() {
 		setTitle("Consulta Carrinho"); // Título da janela.
-		setSize(449, 367); // Tamanho da janela em pixels.
+		setSize(449, 503); // Tamanho da janela em pixels.
 		setLocationRelativeTo(null); // Centraliza a janela na tela.
 		setModal(true); // Torna a janela "modal" (janela que não 
 		
 		JButton btnFecharPedido = new JButton("Fechar Pedido");
-		btnFecharPedido.setBounds(148, 264, 136, 23);
+		btnFecharPedido.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnFecharPedido.setBounds(136, 410, 161, 43);
 		setLocationRelativeTo(null);
 
 		
@@ -48,10 +57,10 @@ public class CarrinhoConsulta extends JDialog {
 		//String excecaoItemCarrinho = null;
 		//String excecaoProduto = null;
 		
-		List<ItemCarrinho> produtosCarrinho = new CarrinhoController().consultaItemCarrinho();
+		produtosCarrinho = new CarrinhoController().consultaItemCarrinho();
 		//produtosCarrinho = new CarrinhoController().getExcecao();
 		
-		List <Produto> produtos = new CarrinhoController().consultaProdutosCarrinho();
+		produtos = new CarrinhoController().consultaProdutosCarrinho();
 		
 		
 		mtTabela = new CarrinhoModeloTabela(produtos, produtosCarrinho);
@@ -86,11 +95,50 @@ public class CarrinhoConsulta extends JDialog {
 		cp.setLayout(null);
 		
 		// Posicionamento dos componentes de interface na janela.
-		spTabela.setBounds(33, 41, 352, 182);
+		spTabela.setBounds(40, 41, 352, 202);
 
 		// Adição dos componentes de interface ao container.
 		cp.add(spTabela);
 		cp.add(btnFecharPedido);
+		
+		JButton btnAltQntd = new JButton("Alterar Quantidade");
+		btnAltQntd.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnAltQntd.setBounds(60, 275, 126, 36);
+		getContentPane().add(btnAltQntd);
+		
+		JButton btnExcluiProdCarrinho = new JButton("Excluir Produto");
+		btnExcluiProdCarrinho.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnExcluiProdCarrinho.setBounds(246, 275, 126, 36);
+		getContentPane().add(btnExcluiProdCarrinho);
+		
+		lblValorTotal = new JLabel("Valor Total: R$");
+		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblValorTotal.setBounds(221, 371, 84, 14);
+		getContentPane().add(lblValorTotal);
+		
+		JLabel lblNewLabel = new JLabel("Valor Total: ");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel.setBounds(146, 371, 67, 14);
+		getContentPane().add(lblNewLabel);
+		
+		tfAlteraQntd = new JTextField();
+		tfAlteraQntd.setBounds(80, 322, 86, 20);
+		getContentPane().add(tfAlteraQntd);
+		tfAlteraQntd.setColumns(10);
+		atualizaValorTotal();
+
+		btnAltQntd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnAltQntdAction();
+			}
+		});
+		
+
+		btnExcluiProdCarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnExcluiProdCarrinhoAction();
+			}
+		});
 
 		btnFecharPedido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -99,22 +147,108 @@ public class CarrinhoConsulta extends JDialog {
 		});
 	}
 	
+	private void btnAltQntdAction(){
+		try {
+			int qntd = Integer.parseInt(tfAlteraQntd.getText());
+			
+			if (tbCarrinho.getSelectedRow() != -1) {
+				int linhaSelecionada = tbCarrinho.getSelectedRow();
+				int id = Integer.parseInt(tbCarrinho.getModel().getValueAt(linhaSelecionada, 0).toString());
+				String erro = new CarrinhoController().alteraQntdCarrinho(Integer.parseInt(tfAlteraQntd.getText()), id);
+				if(erro != null) {
+					String mensagem = "Não foi possivel atualizar a quantidade:\n";
+				    mensagem = mensagem + erro + "\n";
+					JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
+				}else {
+					if(qntd > 0) { //valida quantidade
+						this.mtTabela.setValueAt(tfAlteraQntd.getText(), linhaSelecionada, 3);
+						atualizaValorTotal();
+					}else {
+						JOptionPane.showMessageDialog(this, "Insira uma quantidade maior que 0.", "Mensagem", JOptionPane.WARNING_MESSAGE);
+					}
+					
+				}
+			}else { // Se nenhuma linha está selecionada no JTable.
+				JOptionPane.showMessageDialog(this, "Selecione um produto.", "Mensagem", JOptionPane.WARNING_MESSAGE);
+		}
+		}catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(this, "Insira um número.", "Mensagem", JOptionPane.WARNING_MESSAGE);
+		}
+		
+
+	}
+	
+	
+	private void btnExcluiProdCarrinhoAction() {
+		if (tbCarrinho.getSelectedRow() != -1) {
+			int resposta = JOptionPane.showConfirmDialog(this, "Confirma exclusão?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			
+			if (resposta == 0) { //sim
+				int linhaSelecionada = tbCarrinho.getSelectedRow();
+				int idProd = Integer.parseInt(tbCarrinho.getModel().getValueAt(linhaSelecionada, 0).toString());
+				String erro = "";
+				erro = new CarrinhoController().excluiProdutoCarrinho(idProd);
+				
+				if(erro == null) {
+					mtTabela.removeProdutoTabela(linhaSelecionada);
+					atualizaValorTotal();
+					if (new CarrinhoController().consultaItemCarrinho().size() == 0) {
+						this.setVisible(false); 
+						TelaPrincipal.btnCarrinhoEnabled(false);
+					}
+				} else {
+					String mensagem = "Não foi possível excluir o produto do carrinho:\n";
+				    mensagem = mensagem + erro + "\n";
+					JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+			}else if (resposta == 1) // Não
+				JOptionPane.showMessageDialog(this, "Operação cancelada.", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
+		} else { // Se nenhuma linha está selecionada no JTable.
+			JOptionPane.showMessageDialog(this, "Selecione um produto.", "Mensagem", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
+	
+	
+	
 	private void btnFecharPedidoAction() {
-		//new pedido
 		//new itemPedido, vai receber a chave do pedido, do produto e a quantidade de cada produto.
 		List<String> erros = new ArrayList<String>();
 		erros = new PedidoController().inserePedido(Calendar.getInstance(), new UsuarioController().getUsuarioAtual());
 		
-		if (erros.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
-			JOptionPane.showMessageDialog(this, "Pedido feito com sucesso!", 
-					                      "Informação", JOptionPane.INFORMATION_MESSAGE);
-			this.setVisible(false); // Fecha a janela.
-		} else { // Se o primeiro elemento do ArrayList não for null.
-			String mensagem = "Não foi possível realizar o pedido:\n";
-			for (String e : erros) // Cria uma mensagem contendo todos os erros armazenados no ArrayList.
-				mensagem = mensagem + e + "\n";
-			JOptionPane.showMessageDialog(this, mensagem, "Erros", JOptionPane.ERROR_MESSAGE);
-		}
+		
+			if (erros.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
+				JOptionPane.showMessageDialog(this, "Pedido feito com sucesso!", 
+						                      "Informação", JOptionPane.INFORMATION_MESSAGE);
+				this.setVisible(false); // Fecha a janela.
+				TelaPrincipal.btnCarrinhoEnabled(false);
+			} else { // Se o primeiro elemento do ArrayList não for null.
+				String mensagem = "Não foi possível realizar o pedido:\n";
+				for (String e : erros) // Cria uma mensagem contendo todos os erros armazenados no ArrayList.
+					mensagem = mensagem + e + "\n";
+				JOptionPane.showMessageDialog(this, mensagem, "Erros", JOptionPane.ERROR_MESSAGE);
+			}
+		
 	}
 	
+	
+	
+	public void atualizaValorTotal() {
+		//pagar a quantidade de cada produto no carrinho e multiplicar pelo seu preco 
+		//guardar na variavel valorTotal
+		int quantidade = 0;
+		double preco = 0, valorTotal = 0;
+		
+		for (ItemCarrinho ic: produtosCarrinho) {
+			quantidade = ic.getQuantidade();
+			
+			for(Produto p: produtos) {
+				if (p.getId() == ic.getProduto().getId()) {
+					preco = p.getPrecoVenda();
+				}
+			}
+			valorTotal += quantidade*preco;
+		}
+		lblValorTotal.setText("R$" + String.valueOf(valorTotal));
+	}
 }

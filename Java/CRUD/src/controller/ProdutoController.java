@@ -35,8 +35,8 @@ public class ProdutoController  {
 		 //erros = ProdutoValidacao().ValidaProduto();
 	 }
 	 
-	 public Produto consultaProduto(int id) {
-		 return new ProdutoDao().consultaProduto(id);
+	 public Produto consultaProdutoById(int id) {
+		 return new ProdutoDao().consultaProdutoById(id);
 	 }
 	 
 	 

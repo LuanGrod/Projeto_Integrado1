@@ -83,7 +83,7 @@ public class ProdutoDao extends GenericDao{
 	return categorias;
 }
 	
-	public Produto consultaProduto(int id) {
+	public Produto consultaProdutoById(int id) {
 		Produto produto = null;
 		instrucaoSql = "SELECT * FROM PRODUTO WHERE idProduto = ?";
 		

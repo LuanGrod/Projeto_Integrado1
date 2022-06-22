@@ -29,5 +29,19 @@ public class CarrinhoController {
 	public List<ItemCarrinho> consultaItemCarrinho(){
 		return new CarrinhoDao().consultaItemCarrinho();
 	}
+
+	public String excluiProdutoCarrinho(int idProd) {
+		return new CarrinhoDao().excluiProdutoCarrinho(idProd);
+	}
+	
+	public String alteraQntdCarrinho(int qntd, int id) {
+		return new CarrinhoDao().alteraQntdCarrinho(qntd, id);
+	}
+	
+	 public String getExcecao() {
+	    return new CarrinhoDao().getExcecao();
+	 }
+	 
+	 
 	
 }

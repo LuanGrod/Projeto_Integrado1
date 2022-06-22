@@ -34,16 +34,20 @@ import view.fornecedor.CadastroFornecedor;
 import view.itemPedido.CarrinhoConsulta;
 import view.produto.CadastroProduto;
 import view.usuario.CadastroUsuario;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 
 
 @SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame {
 
 	public JPanel contentPane, panelProd;
-	public JLabel lblProd, lblQntd, lblPreco;
+	public JLabel lblProd, lblQntd, lblPreco, lblCarrinhoVazio;
 	private JTextField tfIdProd, tfQntd;
 	private Produto produto;
-	private JButton btnCarrinho;
+	public static JButton btnCarrinho;
+	private static Boolean statusCarrinho;
 	/**
 	 * Create the frame.
 	 */
@@ -136,8 +140,8 @@ public class TelaPrincipal extends JFrame {
 		panelProd.add(lblProd);
 		
 		JButton btnAddCarrinho = new JButton("Add");
-		btnAddCarrinho.setHorizontalAlignment(SwingConstants.LEFT);
-		btnAddCarrinho.setBounds(284, 54, 51, 23);
+		btnAddCarrinho.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnAddCarrinho.setBounds(284, 54, 61, 23);
 		panelProd.add(btnAddCarrinho);
 		
 		lblQntd = new JLabel("Quantidade: ");
@@ -158,8 +162,17 @@ public class TelaPrincipal extends JFrame {
 		btnCarrinho = new JButton("Carrinho");
 		btnCarrinho.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnCarrinho.setVisible(false);
+		btnCarrinhoEnabled(false);
 		btnCarrinho.setBounds(373, 526, 137, 46);
 		contentPane.add(btnCarrinho);
+		
+		 lblCarrinhoVazio = new JLabel("O carrinho est\u00E1 vazio");
+		 lblCarrinhoVazio.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblCarrinhoVazio.setForeground(Color.RED);
+		lblCarrinhoVazio.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCarrinhoVazio.setBounds(365, 575, 152, 14);
+		contentPane.add(lblCarrinhoVazio);
+		lblCarrinhoVazio.setVisible(false);
 		
 		
 		if (cargo == 1 || cargo == 2) {
@@ -224,6 +237,15 @@ public class TelaPrincipal extends JFrame {
 				btnCarrinhoAction();
 			}
 		});
+		
+
+		btnCarrinho.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(statusCarrinho == false)
+					lblCarrinhoVazio.setVisible(true);
+			}
+		});
 	}
 	
 	private void miFuncionarioAction() { 
@@ -257,9 +279,10 @@ public class TelaPrincipal extends JFrame {
 	}
 	
 	private void btnConsultarAction() {
-		produto = new ProdutoController().consultaProduto(Integer.parseInt(tfIdProd.getText()));
+		produto = new ProdutoController().consultaProdutoById(Integer.parseInt(tfIdProd.getText()));
 		if (new ProdutoController().getExcecao() == null) { 
 			panelProd.setVisible(true);
+			btnCarrinho.setVisible(true);
 			lblProd.setText(produto.getNome());
 			lblQntd.setText("Quantidade: " + String.valueOf(produto.getQtdEstoque()));
 			lblPreco.setText("Preço: " + String.valueOf(produto.getPrecoVenda()));
@@ -276,7 +299,8 @@ public class TelaPrincipal extends JFrame {
 		erros = new CarrinhoController().insereItemCarrinho(Integer.parseInt(tfQntd.getText()), produto);
 		
 		if (erros.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
-			btnCarrinho.setVisible(true);
+			btnCarrinhoEnabled(true);
+			lblCarrinhoVazio.setVisible(false);
 			JOptionPane.showMessageDialog(this, "Produto adicionado ao carrinho", 
 					                      "Informação", JOptionPane.INFORMATION_MESSAGE);
 		} else { // Se o primeiro elemento do ArrayList não for null.
@@ -293,10 +317,16 @@ public class TelaPrincipal extends JFrame {
 			public void run(){ new CarrinhoConsulta().setVisible(true);}});
 	}
 	
+
 	private void fechaTela() {
 		int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Atenção", JOptionPane.YES_NO_OPTION);
 		if(sair == JOptionPane.YES_OPTION) {
 			System.exit(0);
 		}
+	}
+	
+	public static void btnCarrinhoEnabled(Boolean b) {
+		btnCarrinho.setEnabled(b);
+		statusCarrinho = b;
 	}
 }

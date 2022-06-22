@@ -86,5 +86,23 @@ public class CarrinhoDao extends GenericDao{
 		
 		return ics;
 	}
+
+	public String excluiProdutoCarrinho(int idProd) {
+		instrucaoSql = "DELETE FROM CARRINHO WHERE Produto_idProduto = ?";
+		return insere(instrucaoSql, idProd);
+	}
+	
+	public String alteraQntdCarrinho(int qntd, int id) {
+		instrucaoSql = "UPDATE CARRINHO SET Quantidade = ? WHERE Produto_idProduto = ?";
+		return insere(instrucaoSql, qntd, id);
+		
+		
+		
+	}
+	
+	public String getExcecao() {
+		return excecao;
+	}
+
 	
 }
