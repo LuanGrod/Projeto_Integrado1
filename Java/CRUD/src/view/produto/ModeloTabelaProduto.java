@@ -102,4 +102,44 @@ public class ModeloTabelaProduto extends AbstractTableModel { // A classe abstra
 	public boolean isCellEditable(int linha, int coluna) { 
 		return false;
 	}
+	
+	// Método da classe abstrata AbstractTableModel (implementação opcional).
+		@Override
+		// Este método será usado para atualizar o JTable após a alteração de funcionários. 
+		public void setValueAt(Object valor, int linha, int coluna) { 
+			// O método get da classe ArrayList recupera o objeto Funcionario existente na posição indicada pelo argumento "linha".
+			switch (coluna) { 
+            case 1: // Coluna nome 
+            	produtos.get(linha).setNome(valor.toString()); 
+            	break;
+            case 2: // Coluna preco custo 
+            	produtos.get(linha).setPrecoCusto(Double.parseDouble(valor.toString())); 
+            	break;
+            case 3: // Coluna preco venda 
+            	produtos.get(linha).setPrecoVenda(Double.parseDouble(valor.toString())); 
+            	break;
+            case 4: // Coluna qtd estoque 
+            	produtos.get(linha).setQtdEstoque(Integer.parseInt(valor.toString())); 
+            	break;
+            case 5: // Coluna categoria
+    			produtos.get(linha).setCategoria((Categoria) valor); 
+            	break;
+			}
+			// Método da classe abstrata AbstractTableModel.
+			// Informa todos os processadores de eventos que um valor do ArrayList "funcionarios"
+			// foi alterado e que o valor da célula correspondente no JTable deve ser atualizado.
+			fireTableCellUpdated(linha, coluna);
+		}
+		
+		// Remove o funcionário excluído do ArrayList de funcionários e atualiza o JTable.
+	    public void removeProdutoTabela(int linha) {
+	    	produtos.remove(linha);
+	        
+	        // Método da classe abstrata AbstractTableModel.
+			// Informa todos os processadores de eventos que um objeto do ArrayList "funcionarios"
+			// foi excluído e que a linha correspondente no JTable deve ser removida.
+	        // Os argumentos são as linhas inicial e final. Elas são as mesmas, porque 
+	        // somente um funcionário poderá ser selecionado para exclusão de cada vez.
+	        fireTableRowsDeleted(linha, linha);
+	    }
 }

@@ -70,4 +70,24 @@ public class UsuarioController {
     	// Recupera os cargos cadastrados no banco de dados para que sejam carregados no JComboBox Cargo.
 		return new UsuarioDao().selectCargos();		
     }
+    
+//    altera e exclui
+    public List<String> alteraUsuario(Integer id, String login, String senha, String cpf, String nome, String telefone, String email, String rua, String bairro, String cidade, String cep, String estado, Cargo cargo) {
+    	recebeDadosUsuario(id, login, senha, cpf, nome, telefone, email, rua, bairro, cidade, cep, estado, cargo);
+    	
+		// Se nenhum erro de validação for encontrado, tenta inserir o funcionário no banco.
+		if (erros.size() == 0)
+			erros.add(new UsuarioDao().alteraUsuario(usuario));
+		
+		// Retorna o ArrayList contendo:
+		// - Em caso de sucesso: null na 1ª posição; OU
+		// - Em caso de exceção: uma mensagem de exceção na 1ª posição; OU
+		// - Em caso de erro de validação: mensagens de erro iniciando na 1ª posição.
+		return erros;
+    }
+
+    public String excluiUsuario(Integer id) {
+    	String erro = new UsuarioDao().excluiUsuario(id);
+        return erro;
+    }
 }

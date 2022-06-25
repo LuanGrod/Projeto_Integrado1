@@ -207,5 +207,16 @@ public class ProdutoDao extends GenericDao{
 	        return produtos; // Retorna o ArrayList de objetos Funcionário.
 	    }
 
-
+	    public String alteraProduto(Produto produto) {
+	    	instrucaoSql = "UPDATE PRODUTO SET Nome = ?, PrecoCusto = ?, PrecoVenda = ?, QntEstoque = ?, Categoria_idCategoria = ? " +
+	                       "WHERE idProduto = ?";
+	    	return insere(instrucaoSql, produto.getNome(), produto.getPrecoCusto(), produto.getPrecoVenda(), produto.getQtdEstoque(),
+	    											produto.getCategoria().getId(), produto.getId());
+	    }
+	    
+	    public String excluiProduto(int id) {
+	    	instrucaoSql = "DELETE FROM PRODUTO WHERE idProduto = ?";
+	    	return insere(instrucaoSql, id);
+	    }
+	    
 }

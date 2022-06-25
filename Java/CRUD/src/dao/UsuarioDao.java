@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 import model.cargo.Cargo;
 import model.usuario.Usuario;
 
@@ -195,6 +196,17 @@ public class UsuarioDao extends GenericDao{
 	    }
 
 
+	    public String alteraUsuario(Usuario usuario) {
+	    	instrucaoSql = "UPDATE USUARIO SET Login = ?, Senha = ?, CPF = ?, Nome = ?, Telefone = ?, Email = ?, Rua = ?, Bairro = ?, Cidade = ?, CEP = ?, Estado = ?, Cargo_idCargo = ? " +
+	                       "WHERE idUsuario = ?";
+	    	return insere(instrucaoSql, usuario.getLogin(), usuario.getSenha(), usuario.getCpf(), usuario.getNome(), usuario.getTelefone(), usuario.getEmail(), usuario.getRua(),
+	        		                               usuario.getBairro(), usuario.getCidade(), usuario.getCep(), usuario.getEstado(), usuario.getCargo().getId(), usuario.getId());
+	    }
+	    
+	    public String excluiUsuario(int id) {
+	    	instrucaoSql = "DELETE FROM USUARIO WHERE idUsuario = ?";
+	    	return insere(instrucaoSql, id);
+	    }
 }
 
 	

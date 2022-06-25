@@ -101,4 +101,56 @@ public class ModeloTabelaCliente extends AbstractTableModel { // A classe abstra
 	public boolean isCellEditable(int linha, int coluna) { 
 		return false;
 	}
+	
+	// Método da classe abstrata AbstractTableModel (implementação opcional).
+		@Override
+		// Este método será usado para atualizar o JTable após a alteração de funcionários. 
+		public void setValueAt(Object valor, int linha, int coluna) { 
+			// O método get da classe ArrayList recupera o objeto Funcionario existente na posição indicada pelo argumento "linha".
+			switch (coluna) { 
+			case 1: // Coluna Nome 
+				clientes.get(linha).setNome(valor.toString()); 
+				break;
+			case 2: // Coluna cpf 
+				clientes.get(linha).setCpf(valor.toString()); 
+				break;
+			case 3: // Coluna telefone 
+				clientes.get(linha).setTelefone(valor.toString()); 
+				break;
+			case 4: // Coluna email 
+				clientes.get(linha).setEmail(valor.toString()); 
+				break;
+			case 5: // Coluna rua 
+				clientes.get(linha).setRua(valor.toString()); 
+				break;
+			case 6: // Coluna bairr 
+				clientes.get(linha).setBairro(valor.toString()); 
+				break;
+			case 7: // Coluna cid 
+				clientes.get(linha).setCidade(valor.toString()); 
+				break;
+			case 8: // Coluna cep 
+				clientes.get(linha).setCep(valor.toString()); 
+				break;
+			case 9: // Coluna est 
+				clientes.get(linha).setEstado(valor.toString()); 
+				break;
+			}
+			// Método da classe abstrata AbstractTableModel.
+			// Informa todos os processadores de eventos que um valor do ArrayList "funcionarios"
+			// foi alterado e que o valor da célula correspondente no JTable deve ser atualizado.
+			fireTableCellUpdated(linha, coluna);
+		}
+		
+		// Remove o funcionário excluído do ArrayList de funcionários e atualiza o JTable.
+	    public void removeClienteTabela(int linha) {
+	    	clientes.remove(linha);
+	        
+	        // Método da classe abstrata AbstractTableModel.
+			// Informa todos os processadores de eventos que um objeto do ArrayList "funcionarios"
+			// foi excluído e que a linha correspondente no JTable deve ser removida.
+	        // Os argumentos são as linhas inicial e final. Elas são as mesmas, porque 
+	        // somente um funcionário poderá ser selecionado para exclusão de cada vez.
+	        fireTableRowsDeleted(linha, linha);
+	    }
 }

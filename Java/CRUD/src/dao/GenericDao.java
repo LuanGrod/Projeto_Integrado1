@@ -3,7 +3,6 @@
 package dao;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -11,7 +10,6 @@ import logs.Registro;
 
 public class GenericDao {
 	private PreparedStatement comando; // Atributo usado para preparar e executar instruções SQL.
-	private ResultSet registros; // Atributo que recebe os dados retornados por uma instrução SQL.
 	String dataHora = new SimpleDateFormat("[yyyy/MM/dd HH:mm:ss]").format(Calendar.getInstance().getTime());
 
 	/**
