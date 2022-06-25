@@ -3,8 +3,11 @@ package view.usuario;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -12,7 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
+
 import controller.UsuarioController;
 import model.cargo.Cargo;
 import model.usuario.Usuario;
@@ -24,6 +29,8 @@ public class ConsultaUsuario extends JDialog {
 	private JTable tbUsuario; // Tabela que exibirá os funcionários cadastrados no banco de dados.
 	private ModeloTabelaUsuario mtTabela; // Modelo que definirá a estrutura da tabela e permitirá o carregamento dos dados nela.
 	private JScrollPane spTabela; // Painel de rolagem ao qual será vinculado o JTable.
+	private JButton btAlterar;
+	private JButton btExcluir;
 	private Container cp; // Container para organizar os componentes na janela.
 
 	public ConsultaUsuario() { // Construtor.
@@ -89,6 +96,9 @@ public class ConsultaUsuario extends JDialog {
 		tbUsuario.getTableHeader().setReorderingAllowed(false); // Desabilita a reordenação das colunas do JTable.
 		// Habilita o modo de seleção simples, onde é possível selecionar apenas uma linha de cada vez no JTable.
 		tbUsuario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		btAlterar = new JButton("Alterar");
+		btExcluir = new JButton("Excluir");
 
 		cp = getContentPane(); // Instancia o container da janela.
 		cp.setLayout(null); // Configura o layout do container como nulo.
@@ -97,9 +107,89 @@ public class ConsultaUsuario extends JDialog {
 		// Posicionamento dos componentes de interface na janela.
 		lbTitulo.setBounds(215, 10, 300, 25); // x, y, largura, altura.
 		spTabela.setBounds(20, 40, 645, 182);
+		btAlterar.setBounds(215, 240, 100, 25);
+		btExcluir.setBounds(355, 240, 100, 25);
 
 		// Adição dos componentes de interface ao container.
 		cp.add(lbTitulo);
 		cp.add(spTabela);
+		cp.add(btAlterar);
+		cp.add(btExcluir);
+		
+		// Declaração do processador de evento referente ao clique no botão Alterar.
+		btAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btAlterarAction();
+			}
+		});
+		
+		// Declaração do processador de evento referente ao clique no botão Excluir.
+		btExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btExcluirAction();
+			}
+		});
 	} // Final do construtor.
+	
+	private void btAlterarAction() { // Método acionado pelo clique no botão Alterar.		
+		if (tbUsuario.getSelectedRow() != -1){ // Se uma linha está selecionada no JTable.
+			int linhaSelecionada = tbUsuario.getSelectedRow(); // Recupera o índice da linha selecionada no JTable.
+			
+			// Recupera os dados de cada coluna da linha selecionada no JTable.
+			int id = Integer.parseInt(tbUsuario.getModel().getValueAt(linhaSelecionada, 0).toString()); 
+			String login = tbUsuario.getModel().getValueAt(linhaSelecionada, 1).toString();
+			String senha = tbUsuario.getModel().getValueAt(linhaSelecionada, 2).toString();
+			String cpf = tbUsuario.getModel().getValueAt(linhaSelecionada, 3).toString();
+			String nome = tbUsuario.getModel().getValueAt(linhaSelecionada, 4).toString();
+			String telefone = tbUsuario.getModel().getValueAt(linhaSelecionada, 5).toString();
+			String email = tbUsuario.getModel().getValueAt(linhaSelecionada, 6).toString();
+			String rua = tbUsuario.getModel().getValueAt(linhaSelecionada, 7).toString();
+			String bairro = tbUsuario.getModel().getValueAt(linhaSelecionada, 8).toString();
+			String cidade = tbUsuario.getModel().getValueAt(linhaSelecionada, 9).toString();
+			String cep = tbUsuario.getModel().getValueAt(linhaSelecionada, 10).toString();
+			String estado = tbUsuario.getModel().getValueAt(linhaSelecionada, 11).toString();
+			String cargo = tbUsuario.getModel().getValueAt(linhaSelecionada, 12).toString();
+			
+			
+			SwingUtilities.invokeLater(new Runnable(){ // Chama o formulário de alteração de funcionário.
+				@Override
+				public void run(){ new AlteracaoUsuario(id, login, senha, cpf, nome, telefone, email, rua, bairro, cidade, cep, estado, cargo, 
+						                                linhaSelecionada, mtTabela).setVisible(true); }});
+		} else { // Se nenhuma linha está selecionada no JTable.
+			JOptionPane.showMessageDialog(this, "Selecione um funcionário.", "Mensagem", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	private void btExcluirAction() { // Método acionado pelo clique no botão Excluir.
+		if (tbUsuario.getSelectedRow() != -1) { // Se uma linha está selecionada no JTable.			
+			// Mensagem para confirmação da exclusão do funcionário.
+			int resposta = JOptionPane.showConfirmDialog(this, "Confirma a exclusão?", "Confirmação", 
+					 									 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (resposta == 0) { // Sim
+				int linhaSelecionada = tbUsuario.getSelectedRow(); // Recupera o índice da linha selecionada no JTable.
+				
+				// Recupera o id do funcionário presente na linha selecionada no JTable.
+				int id = Integer.parseInt(tbUsuario.getModel().getValueAt(linhaSelecionada, 0).toString()); // idFuncionario
+				
+				String erro = "";
+				
+				// Envia o id do funcionário ao controller. 
+				// O controller retorna então true ou false indicando se houve ou não sucesso na exclusão.
+				erro = new UsuarioController().excluiUsuario(id);
+				
+				if (erro == null) { // Se a string for null.
+					JOptionPane.showMessageDialog(this, "Funcionário excluído com sucesso.", 
+		                                          "Informação", JOptionPane.INFORMATION_MESSAGE);
+					mtTabela.removeUsuarioTabela(linhaSelecionada); // Apaga o funcionário do JTable.
+				} else { // Se a string não for null.
+					String mensagem = "Não foi possível excluir o funcionário:\n";
+				    mensagem = mensagem + erro + "\n";
+					JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+			} else if (resposta == 1) // Não
+				JOptionPane.showMessageDialog(this, "Operação cancelada.", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
+		} else { // Se nenhuma linha está selecionada no JTable.
+			JOptionPane.showMessageDialog(this, "Selecione um funcionário.", "Mensagem", JOptionPane.WARNING_MESSAGE);
+		}
+	}
 }

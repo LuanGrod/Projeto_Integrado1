@@ -74,4 +74,15 @@ public class ClienteDao extends GenericDao{
 	        return clientes; // Retorna o ArrayList de objetos Funcionário.
 	    }
 	
+	    public String alteraCliente(Cliente cliente) {
+	    	instrucaoSql = "UPDATE CLIENTE SET Nome = ?, CPF = ?, Telefone = ?, Email = ?, Rua = ?, Bairro = ?, Cidade = ?, CEP = ?, Estado = ? " +
+	                       "WHERE idCliente = ?";
+	    	return insere(instrucaoSql, cliente.getNome(), cliente.getCpf(), cliente.getTelefone(), cliente.getEmail(), cliente.getRua(),
+	    			cliente.getBairro(), cliente.getCidade(), cliente.getCep(), cliente.getEstado(), cliente.getId());
+	    }
+	    
+	    public String excluiCliente(int id) {
+	    	instrucaoSql = "DELETE FROM CLIENTE WHERE idCliente = ?";
+	    	return insere(instrucaoSql, id);
+	    }
 }
