@@ -36,6 +36,17 @@ public class ProdutoController  {
 		 //erros = ProdutoValidacao().ValidaProduto();
 	 }
 	 
+	 public List<String> insereCategoria(String nome){
+		 erros = new ArrayList<>();
+		 Categoria categoria = new Categoria();
+		 categoria.setId(null);
+		 categoria.setDescricao(nome);
+		//erros = CategoriaValidacao().ValidaCategoria();
+
+		 erros.add(new ProdutoDao().insereCategoria(categoria));
+		 return erros;
+	 }
+	 
 	 public Produto consultaProdutoById(int id) {
 		 return new ProdutoDao().consultaProdutoById(id);
 	 }

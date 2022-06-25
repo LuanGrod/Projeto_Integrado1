@@ -1,5 +1,6 @@
 package view.itemPedido;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -8,48 +9,56 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import controller.CarrinhoController;
 import controller.PedidoController;
 import controller.UsuarioController;
+import dao.CarrinhoDao;
+import model.cliente.Cliente;
 import model.itemPedido.ItemCarrinho;
 import model.produto.Produto;
 import view.main.TelaPrincipal;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class CarrinhoConsulta extends JDialog {
 
 	
 	private static final long serialVersionUID = 1L;
 	private JTable tbCarrinho; 
-	private JLabel lblValorTotal;
+	private JLabel lblValorTotal, tfNome;
 	private CarrinhoModeloTabela mtTabela;
 	private JScrollPane spTabela;
 	private Container cp;	
 	private List<ItemCarrinho> produtosCarrinho;
 	private List <Produto> produtos;
 	private JTextField tfAlteraQntd;
+	private JTextField tfCpf;
+	private Cliente cliente;
 	
 	
 	public CarrinhoConsulta() {
 		setTitle("Consulta Carrinho"); // Título da janela.
-		setSize(449, 503); // Tamanho da janela em pixels.
+		setSize(449, 656); // Tamanho da janela em pixels.
 		setLocationRelativeTo(null); // Centraliza a janela na tela.
 		setModal(true); // Torna a janela "modal" (janela que não 
 		
 		JButton btnFecharPedido = new JButton("Fechar Pedido");
 		btnFecharPedido.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnFecharPedido.setBounds(136, 410, 161, 43);
+		btnFecharPedido.setBounds(136, 552, 161, 43);
 		setLocationRelativeTo(null);
 
 		
@@ -113,18 +122,47 @@ public class CarrinhoConsulta extends JDialog {
 		
 		lblValorTotal = new JLabel("Valor Total: R$");
 		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblValorTotal.setBounds(221, 371, 84, 14);
+		lblValorTotal.setBounds(222, 513, 84, 14);
 		getContentPane().add(lblValorTotal);
 		
 		JLabel lblNewLabel = new JLabel("Valor Total: ");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(146, 371, 67, 14);
+		lblNewLabel.setBounds(147, 513, 67, 14);
 		getContentPane().add(lblNewLabel);
 		
 		tfAlteraQntd = new JTextField();
 		tfAlteraQntd.setBounds(80, 322, 86, 20);
 		getContentPane().add(tfAlteraQntd);
 		tfAlteraQntd.setColumns(10);
+		
+		JPanel panelCliente = new JPanel();
+		panelCliente.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelCliente.setBounds(60, 383, 312, 89);
+		getContentPane().add(panelCliente);
+		Border border = BorderFactory.createTitledBorder("Cliente (Opcional)");
+		panelCliente.setBorder(border);
+		panelCliente.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("CPF");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel_1.setBounds(28, 34, 19, 14);
+		panelCliente.add(lblNewLabel_1);
+		
+		tfCpf = new JTextField();
+		tfCpf.setBounds(52, 31, 126, 20);
+		panelCliente.add(tfCpf);
+		tfCpf.setColumns(10);
+		
+		JButton btnBuscaCliente = new JButton("Buscar Cliente");
+		btnBuscaCliente.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnBuscaCliente.setBounds(188, 30, 110, 23);
+		panelCliente.add(btnBuscaCliente);
+		
+		tfNome = new JLabel("New label");
+		tfNome.setVisible(false);
+		tfNome.setHorizontalAlignment(SwingConstants.CENTER);
+		tfNome.setBounds(70, 64, 171, 14);
+		panelCliente.add(tfNome);
 		atualizaValorTotal();
 
 		btnAltQntd.addActionListener(new ActionListener() {
@@ -143,6 +181,13 @@ public class CarrinhoConsulta extends JDialog {
 		btnFecharPedido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnFecharPedidoAction();
+			}
+		});
+		
+
+		btnBuscaCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnBuscaCliente();
 			}
 		});
 	}
@@ -209,14 +254,36 @@ public class CarrinhoConsulta extends JDialog {
 	}
 
 	
-	
+	private void btnBuscaCliente(){
+		cliente = new CarrinhoController().buscaClienteByCpf(tfCpf.getText());
+		String erro = new CarrinhoController().getExcecao();
+		if (erro == null) {
+			if(cliente != null) {
+				tfNome.setText("Nome do cliente: " + cliente.getNome());
+				tfNome.setVisible(true);
+			}else {
+				JOptionPane.showMessageDialog(this, "Não existe cliente cadastrado com esse cpf", "Mensagem", JOptionPane.WARNING_MESSAGE);
+				tfNome.setVisible(false);
+				tfCpf.setText("");
+				
+			}
+		}else {
+			String mensagem = "Não foi possível buscar o cliente:\n";
+			mensagem = mensagem + erro;
+			JOptionPane.showMessageDialog(this, mensagem, "Erros", JOptionPane.ERROR_MESSAGE);
+		}
+		
+	}
 	
 	private void btnFecharPedidoAction() {
 		//new itemPedido, vai receber a chave do pedido, do produto e a quantidade de cada produto.
 		List<String> erros = new ArrayList<String>();
-		erros = new PedidoController().inserePedido(Calendar.getInstance(), new UsuarioController().getUsuarioAtual());
-		
-		
+				
+		if( cliente == null) {
+			erros = new PedidoController().inserePedido(Calendar.getInstance(), new UsuarioController().getUsuarioAtual());
+		} else {
+			erros = new PedidoController().inserePedidoComCliente(Calendar.getInstance(), new UsuarioController().getUsuarioAtual(), cliente);
+		}
 			if (erros.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
 				JOptionPane.showMessageDialog(this, "Pedido feito com sucesso!", 
 						                      "Informação", JOptionPane.INFORMATION_MESSAGE);

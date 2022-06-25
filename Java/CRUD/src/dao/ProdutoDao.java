@@ -21,6 +21,11 @@ public class ProdutoDao extends GenericDao{
 		return insere(instrucaoSql, produto.getNome(), produto.getPrecoCusto(), produto.getPrecoVenda(), produto.getQtdEstoque(), produto.getCategoria().getId());
 	}
 	
+	public String insereCategoria(Categoria categoria) {
+		instrucaoSql = "INSERT INTO CATEGORIA(descricao) VALUES (?)";
+		return insere(instrucaoSql, categoria.getDescricao());
+	}
+	
 	public List<Produto> consultaProdutos(){
 		Produto produto;
 		Categoria categoria;
@@ -53,6 +58,8 @@ public class ProdutoDao extends GenericDao{
 		}
 		return produtos;
 	}
+	
+	
 	
 	public List<Categoria> recuperaCategorias(){
 		Categoria categoria;

@@ -15,6 +15,11 @@ public class PedidoDao extends GenericDao{
 		instrucaoSql = "INSERT INTO PEDIDO (DataPedido, Usuario_idUsuario) VALUES (?,?)";
 		return insere(instrucaoSql, pedido.getDataPedido(), pedido.getUsuario().getId());
 	}
+	
+	public String inserePedidoComCliente(Pedido pedido){
+		instrucaoSql = "INSERT INTO PEDIDO (DataPedido, Usuario_idUsuario, Cliente_idCliente) VALUES (?,?,?)";
+		return insere(instrucaoSql, pedido.getDataPedido(), pedido.getUsuario().getId(), pedido.getCliente().getId());
+	}
 
 	public Pedido getUltimoPedido() {
 		Pedido pedido = null;
@@ -39,5 +44,7 @@ public class PedidoDao extends GenericDao{
 		return pedido;
 	}
 	
-	
+	public String getExcecao() {
+		return excecao;
+	}
 }

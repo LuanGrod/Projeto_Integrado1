@@ -5,6 +5,14 @@ public class Categoria {
 	private Integer id;
 	private String descricao;
 	
+	
+	public Categoria() {
+	}
+	
+	public Categoria(Integer id, String descricao) {
+		this.id = id;
+		this.descricao = descricao;
+	}
 	public Integer getId() {
 		return id;
 	}

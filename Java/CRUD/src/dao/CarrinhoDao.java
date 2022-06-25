@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.cliente.Cliente;
 import model.itemPedido.ItemCarrinho;
 import model.produto.Produto;
 
@@ -96,8 +97,30 @@ public class CarrinhoDao extends GenericDao{
 		instrucaoSql = "UPDATE CARRINHO SET Quantidade = ? WHERE Produto_idProduto = ?";
 		return insere(instrucaoSql, qntd, id);
 		
+	}
+	
+	
+	public Cliente buscaClienteByCpf(String cpf) {
+		instrucaoSql = "SELECT NOME, idCliente FROM CLIENTE WHERE CPF = ?";
+		Cliente cliente = null;
+		try {
+			excecao = ConnectionDatabase.conectaBd();
+			if(excecao == null) {
 		
-		
+				comando = ConnectionDatabase.getConexaoBd().prepareStatement(instrucaoSql);
+				comando.setObject(1, cpf);
+                registros = comando.executeQuery();
+                
+                while (registros.next()) {
+                	cliente = new Cliente();
+                	cliente.setNome(registros.getString("Nome"));
+                	cliente.setId(registros.getInt("idCliente"));
+                } 
+			}
+		}catch(Exception e) {
+			excecao = "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage();
+		}
+		return cliente;
 	}
 	
 	public String getExcecao() {

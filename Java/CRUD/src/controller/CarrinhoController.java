@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.CarrinhoDao;
+import model.cliente.Cliente;
 import model.itemPedido.ItemCarrinho;
 import model.produto.Produto;
 
@@ -38,10 +39,13 @@ public class CarrinhoController {
 		return new CarrinhoDao().alteraQntdCarrinho(qntd, id);
 	}
 	
-	 public String getExcecao() {
-	    return new CarrinhoDao().getExcecao();
+	 
+	 public Cliente buscaClienteByCpf(String cpf) {
+		 return new CarrinhoDao().buscaClienteByCpf(cpf);
 	 }
 	 
-	 
-	
+	 public String getExcecao() {
+		    return new CarrinhoDao().getExcecao();
+	}
+		 
 }
