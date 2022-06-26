@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.EncomendaDao;
-import dao.ProdutoDao;
 import model.encomenda.Encomenda;
 import model.fornecedor.Fornecedor;
 import model.produto.Produto;
@@ -15,7 +14,7 @@ public class EncomendaController {
 	private List<String> erros;
 	
 	public List<String> insereEncomenda(Produto idProduto, Fornecedor idForncedor, int quantidade){
-		recebeDadosUsuario(null, idProduto, idForncedor, quantidade);
+		recebeDadosEncomenda(null, idProduto, idForncedor, quantidade);
 		
 		if(erros.size() == 0)
 			erros.add(new EncomendaDao().insereEncomenda(encomenda));
@@ -23,7 +22,7 @@ public class EncomendaController {
 		return erros;
 	}
 	
-	public void recebeDadosUsuario(Integer id, Produto idProduto, Fornecedor idForncedor, int quantidade) {
+	public void recebeDadosEncomenda(Integer id, Produto idProduto, Fornecedor idForncedor, int quantidade) {
 		encomenda = new Encomenda();
 		erros = new ArrayList<>();
 		
@@ -44,6 +43,29 @@ public class EncomendaController {
 	}
 	
 	public String getExcecao() {
-    	return new ProdutoDao().getExcecao();
+    	return new EncomendaDao().getExcecao();
+    }
+	
+    public List<Encomenda> consultaEncomenda() {
+		return new EncomendaDao().consultaEncomenda();
+    }
+    
+    public List<String> alteraEncomenda(Integer id, Produto idProduto, Fornecedor idForncedor, int quantidade) {
+    	recebeDadosEncomenda(id, idProduto, idForncedor, quantidade);
+    	
+		// Se nenhum erro de validação for encontrado, tenta inserir o funcionário no banco.
+		if (erros.size() == 0)
+			erros.add(new EncomendaDao().alteraEncomenda(encomenda));
+		
+		// Retorna o ArrayList contendo:
+		// - Em caso de sucesso: null na 1ª posição; OU
+		// - Em caso de exceção: uma mensagem de exceção na 1ª posição; OU
+		// - Em caso de erro de validação: mensagens de erro iniciando na 1ª posição.
+		return erros;
+    }
+
+    public String excluiEncomenda(Integer id) {
+    	String erro = new EncomendaDao().excluiEncomenda(id);
+        return erro;
     }
 }

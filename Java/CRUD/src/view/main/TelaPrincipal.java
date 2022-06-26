@@ -31,7 +31,9 @@ import model.produto.Produto;
 import view.cliente.CadastroCliente;
 import view.cliente.ConsultaCliente;
 import view.encomenda.CadastroEncomenda;
+import view.encomenda.ConsultaEncomenda;
 import view.fornecedor.CadastroFornecedor;
+import view.fornecedor.ConsultaFornecedor;
 import view.itemPedido.CarrinhoConsulta;
 import view.produto.CadastroProduto;
 import view.produto.ConsultaProduto;
@@ -84,6 +86,7 @@ public class TelaPrincipal extends JFrame {
 		JMenuItem miConsultaCliente = new JMenuItem("Consulta");
 		miConsultaCliente.setHorizontalAlignment(SwingConstants.CENTER);
 		mnCliente.add(miConsultaCliente);
+		miConsultaCliente.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
 		
 		//loja
 		JMenu mnLoja = new JMenu("Loja");
@@ -96,20 +99,22 @@ public class TelaPrincipal extends JFrame {
 
 		//loja -> Cadastro -> Funcionario
 		JMenuItem miFuncionario = new JMenuItem("Funcion\u00E1rio");
-		miFuncionario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK));
+		miFuncionario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK));
 		mntmCadastro.add(miFuncionario);
 		
 		//loja -> Cadastro -> Produto
 		JMenuItem miProduto = new JMenuItem("Produto");
-		miProduto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
+		miProduto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK));
 		mntmCadastro.add(miProduto);
 
 		//loja -> Cadastro -> Fornecedor
 		JMenuItem miForncecedor = new JMenuItem("Fornecedor");
+		miForncecedor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, InputEvent.CTRL_DOWN_MASK));
 		mntmCadastro.add(miForncecedor);
 		
 		//loja -> Cadastro -> Encomenda
 		JMenuItem miEncomenda = new JMenuItem("Encomenda");
+		miEncomenda.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, InputEvent.CTRL_DOWN_MASK));
 		mntmCadastro.add(miEncomenda);
 
 		//loja -> Consulta
@@ -118,20 +123,22 @@ public class TelaPrincipal extends JFrame {
 		
 		//loja -> Consulta -> Funcionario
 		JMenuItem miConsultaFuncionario = new JMenuItem("Funcion\u00E1rio");
-		miConsultaFuncionario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK));
+		miConsultaFuncionario.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK));
 		mntmConsulta.add(miConsultaFuncionario);
 		
 		//loja -> Consulta -> Produto
 		JMenuItem miConsultaProduto = new JMenuItem("Produto");
-		miConsultaProduto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
+		miConsultaProduto.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, InputEvent.CTRL_DOWN_MASK));
 		mntmConsulta.add(miConsultaProduto);
 
 		//loja -> Consulta -> Fornecedor
 		JMenuItem miConsultaForncecedor = new JMenuItem("Fornecedor");
+		miConsultaForncecedor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, InputEvent.CTRL_DOWN_MASK));
 		mntmConsulta.add(miConsultaForncecedor);
 		
 		//loja -> Consulta -> Encomenda
 		JMenuItem miConsultaEncomenda = new JMenuItem("Encomenda");
+		miConsultaEncomenda.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, InputEvent.CTRL_DOWN_MASK));
 		mntmConsulta.add(miConsultaEncomenda);
 		
 		//Relatorio
@@ -263,13 +270,13 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		
-//		//consulta fornecedor
-//		miConsultaForncecedor.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				miConsultaForncecedorAction();
-//			}
-//		});
-//		
+		//consulta fornecedor
+		miConsultaForncecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miConsultaForncecedorAction();
+			}
+		});
+		
 		//consulta produto
 		miConsultaProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -277,12 +284,12 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		
-//		//consulta encomenda
-//		miConsultaEncomenda.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				miConsultaEncomendaAction();
-//			}
-//		});
+		//consulta encomenda
+		miConsultaEncomenda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miConsultaEncomendaAction();
+			}
+		});
 		
 		//sair
 		miSair.addActionListener(new ActionListener() {
@@ -357,11 +364,11 @@ public class TelaPrincipal extends JFrame {
 			public void run(){ new CadastroFornecedor().setVisible(true); }});
 	}
 	
-//	private void miConsultaForncecedorAction() { 
-//		SwingUtilities.invokeLater(new Runnable(){
-//			@Override
-//			public void run(){ new ConsultaFornecedor().setVisible(true); }});
-//	}
+	private void miConsultaForncecedorAction() { 
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run(){ new ConsultaFornecedor().setVisible(true); }});
+	}
 	
 	//produto
 	private void miProdutoAction() {
@@ -383,11 +390,11 @@ public class TelaPrincipal extends JFrame {
 			public void run(){ new CadastroEncomenda().setVisible(true);}});
 	}
 	
-//	private void miConsultaEncomendaAction() { 
-//		SwingUtilities.invokeLater(new Runnable(){
-//			@Override
-//			public void run(){ new ConsultaEncomenda().setVisible(true); }});
-//	}
+	private void miConsultaEncomendaAction() { 
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run(){ new ConsultaEncomenda().setVisible(true); }});
+	}
 	
 	private void btnConsultarAction() {
 		produto = new ProdutoController().consultaProdutoById(Integer.parseInt(tfIdProd.getText()));

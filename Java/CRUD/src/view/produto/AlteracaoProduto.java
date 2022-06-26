@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import controller.ProdutoController;
 import model.categoria.Categoria;
@@ -98,12 +99,12 @@ public class AlteracaoProduto extends JDialog {
 		lbPrecoCusto.setBounds(30, 153, 78, 14);
 		lbPrecoVenda.setBounds(30, 192, 78, 14);
 		lbQtdEstoque.setBounds(30, 110, 148, 14);
-		lbCategoria.setBounds(251, 231, 46, 14);
+		lbCategoria.setBounds(30, 71, 55, 14);
 		
 		tfNome.setBounds(74, 27, 148, 20);
 		tfPrecoCusto.setBounds(112, 149, 78, 20);
 		tfPrecoVenda.setBounds(112, 188, 78, 20);
-		tfQtdEstoque.setBounds(158, 107, 51, 20);
+		tfQtdEstoque.setBounds(170, 107, 51, 20);
 		cbCategoria.setBounds(95, 67, 114, 22);
 		
 		btSalvar.setBounds(270, 211, 148, 28);
@@ -135,12 +136,11 @@ public class AlteracaoProduto extends JDialog {
 		//criar nova categoria - falta implementar
 		btCriaCategoria.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btSalvarAction();
+				btnCriaCategoriaAction();
 			}
 		});
 	} // Final do construtor.
 
-	@SuppressWarnings("deprecation")
 	private void btSalvarAction() { // Método acionado pelo clique no botão Salvar.
 		Double precoCusto = null;
 		Double precoVenda = null;
@@ -184,5 +184,12 @@ public class AlteracaoProduto extends JDialog {
 				mensagem = mensagem + e + "\n";
 			JOptionPane.showMessageDialog(this, mensagem, "Erros", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	
+	private void btnCriaCategoriaAction() { 
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run(){ new CadastraCategoria().setVisible(true); }});
 	}
 }

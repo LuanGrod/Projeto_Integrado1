@@ -37,7 +37,7 @@ public class AlteracaoCliente extends JDialog {
 		
 		lbCpf = new JLabel("CPF");
 		lbNome = new JLabel("Nome");
-		lbTelefone = new JLabel("Telefone");
+		lbTelefone = new JLabel("Tel.");
 		lbEmail = new JLabel("Email");
 		lbRua = new JLabel("Rua");
 		lbBairro = new JLabel("Bairro");
@@ -162,7 +162,7 @@ public class AlteracaoCliente extends JDialog {
 			this.mtTabela.setValueAt(tfBairro.getText(), this.linhaSelecionada, 6);
 			this.mtTabela.setValueAt(tfCidade.getText(), this.linhaSelecionada, 7);
 			this.mtTabela.setValueAt(tfCep.getText(), this.linhaSelecionada, 8);
-			this.mtTabela.setValueAt(tfEstado.getText(), this.linhaSelecionada, 8);
+			this.mtTabela.setValueAt(tfEstado.getText(), this.linhaSelecionada, 9);
 			this.setVisible(false); // Fecha a janela.
 		} else { // Se o primeiro elemento do ArrayList não for null.
 			String mensagem = "Não foi possível alterar o cliente:\n";

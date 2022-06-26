@@ -1,22 +1,23 @@
-package view.cliente;
+package view.fornecedor;
 
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.cliente.Cliente;
+import model.fornecedor.Fornecedor;
+
 
 @SuppressWarnings("serial")
-public class ModeloTabelaCliente extends AbstractTableModel { // A classe abstrata AbstractTableModel implementa a interface TableModel.
+public class ModeloTabelaFornecedor extends AbstractTableModel { // A classe abstrata AbstractTableModel implementa a interface TableModel.
 	// Array de nomes a serem exibidos no cabeçalho do JTable.
-	private String[] colunas = { "Código", "Nome", "CPF", "Telefone", "Email", "Rua", "Bairro", "Cidade", "CEP", "Estado"};
-	private List<Cliente> clientes; // Lista que conterá os dados a serem exibidos no corpo do JTable.
+	private String[] colunas = { "Código", "CNPJ", "Telefone", "Email", "Nome"};
+	private List<Fornecedor> fornecedores; // Lista que conterá os dados a serem exibidos no corpo do JTable.
 	
-	public ModeloTabelaCliente() { } // Construtor vazio.
+	public ModeloTabelaFornecedor() { } // Construtor vazio.
 
-	public ModeloTabelaCliente(List<Cliente> clientes) { // Construtor.
+	public ModeloTabelaFornecedor(List<Fornecedor> fornecedores) { // Construtor.
 		// Obtém um ArrayList de objetos Funcionario, contendo os dados dos funcionários cadastrados.
-		this.clientes = clientes;
+		this.fornecedores = fornecedores;
 	}
 	
 	// Método da interface TableModel (implementação obrigatória). 
@@ -38,8 +39,8 @@ public class ModeloTabelaCliente extends AbstractTableModel { // A classe abstra
 	// Retorna a quantidade de linhas do modelo da tabela. 
 	@Override
 	public int getRowCount() {
-		if (clientes != null) // Se existir pelo menos um funcionário cadastrado.
-			return clientes.size();	
+		if (fornecedores != null) // Se existir pelo menos um funcionário cadastrado.
+			return fornecedores.size();	
 		return 0;
 	}
 	
@@ -57,39 +58,24 @@ public class ModeloTabelaCliente extends AbstractTableModel { // A classe abstra
 	// Cada valor recuperado é então retornado para popular uma célula correspondente no JTable.
 	@Override
     public Object getValueAt(int linha, int coluna) {
-        Cliente cliente = clientes.get(linha); // Recupera o objeto Funcionario presente na posição "linha" do ArrayList.
+		Fornecedor fornecedor = fornecedores.get(linha); // Recupera o objeto Funcionario presente na posição "linha" do ArrayList.
         Object valor = null;
 		
         switch (coluna) { // Verifica qual atributo do funcionário será recuperado, com base na coluna recebida.
-            case 0: // Coluna IdFuncionario
-            	valor = cliente.getId(); 
+            case 0: // Coluna idFornecedor
+            	valor = fornecedor.getId(); 
             	break;
-            case 1: // Coluna Nome 
-            	valor = cliente.getNome(); 
+            case 1: // Coluna CNPJ 
+            	valor = fornecedor.getCnpj(); 
             	break;
-            case 2: // Coluna CPF
-            	valor = cliente.getCpf(); 
+            case 2: // Coluna Telefone
+            	valor = fornecedor.getTelefone(); 
             	break;
-            case 3: // Coluna Telefone
-            	valor = cliente.getTelefone(); 
+            case 3: // Coluna Email
+            	valor = fornecedor.getEmail(); 
             	break;
-            case 4: // Coluna Email
-            	valor = cliente.getEmail(); 
-            	break;
-            case 5: // Coluna Rua
-            	valor = cliente.getRua(); 
-            	break;
-            case 6: // Coluna Bairro
-            	valor = cliente.getBairro(); 
-            	break;
-            case 7: // Coluna Cidade
-            	valor = cliente.getCidade(); 
-            	break;
-            case 8: // Coluna CEP
-            	valor = cliente.getCep(); 
-            	break;
-            case 9: // Coluna Estado
-            	valor = cliente.getEstado(); 
+            case 4: // Coluna Nome
+            	valor = fornecedor.getNome(); 
             	break;
         }
         return valor;
@@ -108,32 +94,17 @@ public class ModeloTabelaCliente extends AbstractTableModel { // A classe abstra
 		public void setValueAt(Object valor, int linha, int coluna) { 
 			// O método get da classe ArrayList recupera o objeto Funcionario existente na posição indicada pelo argumento "linha".
 			switch (coluna) { 
-			case 1: // Coluna Nome 
-				clientes.get(linha).setNome(valor.toString()); 
+			case 1: // Coluna cnpj 
+				fornecedores.get(linha).setCnpj(valor.toString()); 
 				break;
-			case 2: // Coluna cpf 
-				clientes.get(linha).setCpf(valor.toString()); 
+			case 2: // Coluna telefone 
+				fornecedores.get(linha).setTelefone(valor.toString()); 
 				break;
-			case 3: // Coluna telefone 
-				clientes.get(linha).setTelefone(valor.toString()); 
+			case 3: // Coluna email 
+				fornecedores.get(linha).setEmail(valor.toString()); 
 				break;
-			case 4: // Coluna email 
-				clientes.get(linha).setEmail(valor.toString()); 
-				break;
-			case 5: // Coluna rua 
-				clientes.get(linha).setRua(valor.toString()); 
-				break;
-			case 6: // Coluna bairr 
-				clientes.get(linha).setBairro(valor.toString()); 
-				break;
-			case 7: // Coluna cid 
-				clientes.get(linha).setCidade(valor.toString()); 
-				break;
-			case 8: // Coluna cep 
-				clientes.get(linha).setCep(valor.toString()); 
-				break;
-			case 9: // Coluna est 
-				clientes.get(linha).setEstado(valor.toString()); 
+			case 4: // Coluna nome 
+				fornecedores.get(linha).setNome(valor.toString()); 
 				break;
 			}
 			// Método da classe abstrata AbstractTableModel.
@@ -143,8 +114,8 @@ public class ModeloTabelaCliente extends AbstractTableModel { // A classe abstra
 		}
 		
 		// Remove o funcionário excluído do ArrayList de funcionários e atualiza o JTable.
-	    public void removeClienteTabela(int linha) {
-	    	clientes.remove(linha);
+	    public void removeFornecedorTabela(int linha) {
+	    	fornecedores.remove(linha);
 	        
 	        // Método da classe abstrata AbstractTableModel.
 			// Informa todos os processadores de eventos que um objeto do ArrayList "funcionarios"

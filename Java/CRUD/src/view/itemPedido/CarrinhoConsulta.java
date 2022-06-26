@@ -28,7 +28,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import controller.CarrinhoController;
 import controller.PedidoController;
 import controller.UsuarioController;
-import dao.CarrinhoDao;
 import model.cliente.Cliente;
 import model.itemPedido.ItemCarrinho;
 import model.produto.Produto;

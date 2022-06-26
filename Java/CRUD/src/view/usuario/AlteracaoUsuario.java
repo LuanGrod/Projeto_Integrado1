@@ -44,7 +44,7 @@ public class AlteracaoUsuario extends JDialog {
 		lbSenha = new JLabel("Senha");
 		lbCpf = new JLabel("CPF");
 		lbNome = new JLabel("Nome");
-		lbTelefone = new JLabel("Telefone");
+		lbTelefone = new JLabel("Tel.");
 		lbEmail = new JLabel("Email");
 		lbRua = new JLabel("Rua");
 		lbBairro = new JLabel("Bairro");
