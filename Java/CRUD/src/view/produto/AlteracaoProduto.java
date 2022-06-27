@@ -23,7 +23,7 @@ import model.categoria.Categoria;
 public class AlteracaoProduto extends JDialog {
 	private JLabel lbNome, lbPrecoCusto, lbPrecoVenda, lbQtdEstoque, lbCategoria;
 	private JTextField tfNome, tfPrecoCusto, tfPrecoVenda, tfQtdEstoque;
-	private JComboBox<Categoria> cbCategoria;
+	private static JComboBox<Categoria> cbCategoria;
 	private JButton btSalvar ,btCriaCategoria;
 	private Container cp; // Container para organizar os componentes na janela.	
 	private int idProduto; // Id do funcionário a ser alterado.
@@ -183,6 +183,17 @@ public class AlteracaoProduto extends JDialog {
 			for (String e : erros) // Cria uma mensagem contendo todos os erros armazenados no ArrayList.
 				mensagem = mensagem + e + "\n";
 			JOptionPane.showMessageDialog(this, mensagem, "Erros", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public static void populaCb() {
+		cbCategoria.removeAllItems();
+		List<Categoria> categorias = new ArrayList<>();
+		categorias = new ProdutoController().recuperaCategorias();
+		if(categorias != null) {
+			for(Categoria c : categorias) {
+				cbCategoria.addItem(c);
+			}
 		}
 	}
 

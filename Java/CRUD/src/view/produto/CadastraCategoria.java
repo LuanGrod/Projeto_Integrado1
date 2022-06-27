@@ -22,7 +22,7 @@ public class CadastraCategoria extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField tfCategoria;
-
+	
 	public CadastraCategoria() {
 		setTitle("Cadastrar Categoria");
 		setBounds(100, 100, 450, 197);
@@ -31,7 +31,7 @@ public class CadastraCategoria extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		setLocationRelativeTo(null);
-
+		setModal(true);
 		
 		JLabel lblNewLabel = new JLabel("Nome da Categoria");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -64,7 +64,12 @@ public class CadastraCategoria extends JDialog {
 		if (erros.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
 			JOptionPane.showMessageDialog(this, "Categoria cadastrada com sucesso.", 
 					                      "Informação", JOptionPane.INFORMATION_MESSAGE);
-			CadastroProduto.populaCb();
+			
+			try{
+				CadastroProduto.populaCb();
+			}catch(NullPointerException e) {
+				AlteracaoProduto.populaCb();
+			}
 			this.setVisible(false); // Fecha a janela.
 			
 		} else { // Se o primeiro elemento do ArrayList não for null.
