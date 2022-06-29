@@ -61,7 +61,7 @@ public class CadastraCategoria extends JDialog {
 		List<String> erros = new ArrayList<String>();
 		erros = new ProdutoController().insereCategoria(tfCategoria.getText());
 		
-		if (erros.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
+		if (erros.size() == 0) { // Se o primeiro elemento do ArrayList for null.
 			JOptionPane.showMessageDialog(this, "Categoria cadastrada com sucesso.", 
 					                      "Informação", JOptionPane.INFORMATION_MESSAGE);
 			

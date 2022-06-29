@@ -5,7 +5,9 @@ import java.util.List;
 
 import dao.ProdutoDao;
 import model.categoria.Categoria;
+import model.categoria.ValidaCategoria;
 import model.produto.Produto;
+import model.produto.ValidaProduto;
 
 public class ProdutoController  {
 
@@ -22,7 +24,7 @@ public class ProdutoController  {
 		return erros;
 	}
 	
-	//???
+
 	 public void recebeDadosProduto(Integer Id, String nome, double precoCusto, double PrecoVenda, int QntEstoque, Categoria Categoria_idCategoria) {
 		 produto = new Produto();
 		 erros = new ArrayList<>();
@@ -33,18 +35,21 @@ public class ProdutoController  {
 		 produto.setPrecoVenda(PrecoVenda);
 		 produto.setQtdEstoque(QntEstoque);
 		 produto.setCategoria(Categoria_idCategoria);
-		 //erros = ProdutoValidacao().ValidaProduto();
+		 erros = ValidaProduto.validaProduto(produto);
 	 }
 	 
 	 public List<String> insereCategoria(String nome){
-		 erros = new ArrayList<>();
+		 erros = new ArrayList<String>();
 		 Categoria categoria = new Categoria();
 		 categoria.setId(null);
 		 categoria.setDescricao(nome);
-		//erros = CategoriaValidacao().ValidaCategoria();
-
-		 erros.add(new ProdutoDao().insereCategoria(categoria));
+		 erros =  ValidaCategoria.validaCategoria(categoria);
+		 
+		 if (erros.size() == 0)
+			 new ProdutoDao().insereCategoria(categoria);
+		 
 		 return erros;
+		 
 	 }
 	 
 	 public Produto consultaProdutoById(int id) {

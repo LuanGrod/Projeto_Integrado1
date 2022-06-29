@@ -28,8 +28,8 @@ public class UsuarioValidacao {
 			errosValidacao.add("* O nome deve ao menos 5 caracteres");
 		}
 		
-		if(usuario.getTelefone().length()<5 ) {
-			errosValidacao.add("* O telefone deve ao menos 5 caracteres");
+		if(usuario.getTelefone().length()<9 ) {
+			errosValidacao.add("* O telefone deve ao menos 9 caracteres");
 		}
 		
 		if(usuario.getEmail().length()<5 ) {

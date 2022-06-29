@@ -16,8 +16,7 @@ public class EncomendaController {
 	public List<String> insereEncomenda(Produto idProduto, Fornecedor idForncedor, int quantidade){
 		recebeDadosEncomenda(null, idProduto, idForncedor, quantidade);
 		
-		if(erros.size() == 0)
-			erros.add(new EncomendaDao().insereEncomenda(encomenda));
+		new EncomendaDao().insereEncomenda(encomenda);
 		
 		return erros;
 	}
@@ -31,7 +30,6 @@ public class EncomendaController {
 		encomenda.setFornecedor(idForncedor);
 		encomenda.setQuantidade(quantidade);
 		encomenda.setSituacao("Em aberto");
-		//erros = EncomendaValidacao().validaEncomenda();
 	}
 	
 	public List<Produto> consultaProdutos(){

@@ -5,12 +5,13 @@ import java.util.List;
 
 import dao.FornecedorDao;
 import model.fornecedor.Fornecedor;
+import model.fornecedor.ValidaFornecedor;
 
 public class FornecedorController {
 	private Fornecedor fornecedor;
 	private List<String> erros;
 
-	public List<String> insereFornecedor(String nome,String cnpj,String telefone,String email){
+	public List<String> insereFornecedor(String nome,String email,String  cnpj, String telefone){
 		recebeDadosFornecedor(null, nome, cnpj, telefone, email);
 
 		if (erros.size() == 0) 
@@ -28,6 +29,7 @@ public class FornecedorController {
 		fornecedor.setEmail(email);
 		fornecedor.setTelefone(telefone);
 		fornecedor.setNome(nome);
+		erros = ValidaFornecedor.validaFornecedor(fornecedor);
 	}
 
 	public String getExcecao() {

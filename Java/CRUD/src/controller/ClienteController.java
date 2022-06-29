@@ -5,6 +5,7 @@ import java.util.List;
 
 import dao.ClienteDao;
 import model.cliente.Cliente;
+import model.cliente.ClienteValidacao;
 
 
 public class ClienteController {
@@ -34,7 +35,7 @@ public class ClienteController {
     	cliente.setCidade(cidade);
     	cliente.setCep(cep);
     	cliente.setEstado(estado);
-    	//erros =  ClienteValidacao.validaCliente(cliente);
+    	erros =  ClienteValidacao.validaCliente(cliente);
     	
 	}
 	

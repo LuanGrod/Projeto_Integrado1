@@ -6,6 +6,7 @@ import java.util.List;
 import dao.CarrinhoDao;
 import model.cliente.Cliente;
 import model.itemPedido.ItemCarrinho;
+import model.itemPedido.ValidaItemCarrinho;
 import model.produto.Produto;
 
 public class CarrinhoController {
@@ -18,7 +19,10 @@ public class CarrinhoController {
 		ItemCarrinho carrinho = new ItemCarrinho();
 		carrinho.setQuantidade(qntd);
 		carrinho.setProduto(produto);
-		erros.add(new CarrinhoDao().InsereItemCarrinho(carrinho));
+		erros = ValidaItemCarrinho.validaItemCarrinho(carrinho);
+		
+		if(erros.size() == 0)
+			erros.add(new CarrinhoDao().InsereItemCarrinho(carrinho));
 			
 		return erros;
 	}

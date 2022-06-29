@@ -91,9 +91,18 @@ public class CadastroEncomenda extends JFrame {
 	private void btnCadEncomenda() {
 		List<String> erros = new ArrayList<String>();
 		
-		erros = new EncomendaController().insereEncomenda((Produto) cbProduto.getSelectedItem(), (Fornecedor) cbFornecedor.getSelectedItem(), Integer.parseInt(tfQnt.getText()));
 		
-		if (erros.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
+		try {
+			erros = new EncomendaController().insereEncomenda((Produto) cbProduto.getSelectedItem(), (Fornecedor) cbFornecedor.getSelectedItem(), Integer.parseInt(tfQnt.getText()));
+		}catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(this, "Insira uma quantidade", "Erros", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if(Integer.parseInt(tfQnt.getText()) == 0) {
+			erros.add("* Insira uma quantidade maior que 0");
+		}
+		
+		if (erros.size() == 0) { // Se o primeiro elemento do ArrayList for null.
 			JOptionPane.showMessageDialog(this, "Encomenda cadastrada com sucesso.", 
 					                      "Informação", JOptionPane.INFORMATION_MESSAGE);
 			this.setVisible(false); // Fecha a janela.
