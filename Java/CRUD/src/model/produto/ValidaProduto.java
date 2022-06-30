@@ -18,9 +18,16 @@ public class ValidaProduto {
 		produtos = new ArrayList<>();
 		produtos = new ProdutoController().selectProdutos();
 		
+		if(produto.getNome().equals("")) {
+			errosValidacao.add("* Insira um nome");
+			return errosValidacao;
+		}
+		
+		
 		for(Produto p : produtos) {
 			if (produto.getNome().equals(p.getNome())) {
 				errosValidacao.add("* Produto já existente.");
+				return errosValidacao;
 			}
 		}
 		

@@ -61,7 +61,7 @@ public class  CadastroProduto extends JDialog {
 		cp.add(tfNome);
 		tfNome.setColumns(10);
 		
-		tfQntEstq = new JTextField();
+		tfQntEstq = new JTextField("0");
 		tfQntEstq.setBounds(158, 107, 51, 20);
 		cp.add(tfQntEstq);
 		tfQntEstq.setColumns(10);

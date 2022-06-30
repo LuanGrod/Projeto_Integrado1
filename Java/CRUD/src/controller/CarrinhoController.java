@@ -40,7 +40,11 @@ public class CarrinhoController {
 	}
 	
 	public String alteraQntdCarrinho(int qntd, int id) {
-		return new CarrinhoDao().alteraQntdCarrinho(qntd, id);
+		String erro = null;
+		erro = ValidaItemCarrinho.validaQuantidade(id, qntd);
+		if(erro == null)
+			return new CarrinhoDao().alteraQntdCarrinho(qntd, id);
+		return erro;
 	}
 	
 	 
