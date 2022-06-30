@@ -15,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import controller.EncomendaController;
@@ -101,7 +100,7 @@ public class ConsultaEncomenda extends JDialog {
 		// Habilita o modo de seleção simples, onde é possível selecionar apenas uma linha de cada vez no JTable.
 		tbEncomenda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		btAlterar = new JButton("Alterar");
+		btAlterar = new JButton("Entregue");
 		btExcluir = new JButton("Excluir");
 
 		cp = getContentPane(); // Instancia o container da janela.
@@ -141,16 +140,26 @@ public class ConsultaEncomenda extends JDialog {
 			
 			// Recupera os dados de cada coluna da linha selecionada no JTable.
 			int id = Integer.parseInt(tbEncomenda.getModel().getValueAt(linhaSelecionada, 0).toString()); 
-			String produto = tbEncomenda.getModel().getValueAt(linhaSelecionada, 1).toString();
-			String fornecedor = tbEncomenda.getModel().getValueAt(linhaSelecionada, 2).toString();
-			String quantidade = tbEncomenda.getModel().getValueAt(linhaSelecionada, 3).toString();
-			//String situacao = tbEncomenda.getModel().getValueAt(linhaSelecionada, 4).toString();
+//			String produto = tbEncomenda.getModel().getValueAt(linhaSelecionada, 1).toString();
+//			String fornecedor = tbEncomenda.getModel().getValueAt(linhaSelecionada, 2).toString();
+			int quantidade = Integer.parseInt(tbEncomenda.getModel().getValueAt(linhaSelecionada, 3).toString());
+//			String situacao = tbEncomenda.getModel().getValueAt(linhaSelecionada, 4).toString();
 			
+			String situacao = new String();
+			situacao = "Entregue";
 			
-			SwingUtilities.invokeLater(new Runnable(){ // Chama o formulário de alteração de funcionário.
-				@Override
-				public void run(){ new AlteracaoEncomenda(id, produto, fornecedor, quantidade,
-						                                linhaSelecionada, mtTabela).setVisible(true); }});
+			String erro = "";
+			erro = new EncomendaController().entregueEncomenda(id, quantidade);
+			
+			if (erro == null) { // Se a string for null.
+				JOptionPane.showMessageDialog(this, "Encomenda atualizada com sucesso.", 
+	                                          "Informação", JOptionPane.INFORMATION_MESSAGE);
+				tbEncomenda.getModel().setValueAt(situacao, linhaSelecionada, 4);
+			} else { // Se a string não for null.
+				String mensagem = "Não foi possível atualizar a encomenda:\n";
+			    mensagem = mensagem + erro + "\n";
+				JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		} else { // Se nenhuma linha está selecionada no JTable.
 			JOptionPane.showMessageDialog(this, "Selecione uma encomenda.", "Mensagem", JOptionPane.WARNING_MESSAGE);
 		}

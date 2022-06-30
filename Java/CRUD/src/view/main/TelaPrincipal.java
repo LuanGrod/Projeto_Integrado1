@@ -2,7 +2,6 @@ package view.main;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +9,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +23,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 
 import controller.CarrinhoController;
 import controller.ProdutoController;
+import logs.Registro;
+import model.log.Log;
 import model.produto.Produto;
 import view.cliente.CadastroCliente;
 import view.cliente.ConsultaCliente;
@@ -42,7 +40,6 @@ import view.encomenda.ConsultaEncomenda;
 import view.fornecedor.CadastroFornecedor;
 import view.fornecedor.ConsultaFornecedor;
 import view.itemPedido.CarrinhoConsulta;
-import view.login.Pesquisa;
 import view.produto.CadastroProduto;
 import view.produto.ConsultaProduto;
 import view.usuario.CadastroUsuario;
@@ -163,13 +160,18 @@ public class TelaPrincipal extends JFrame {
 		JMenuItem miConsultaEncomenda = new JMenuItem("Encomenda");
 		miConsultaEncomenda.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, InputEvent.CTRL_DOWN_MASK));
 		mntmConsulta.add(miConsultaEncomenda);
-
+		
 		// Relatorio
 		JMenu mnRelatorio = new JMenu("Relat\u00F3rio");
 		mnRelatorio.setForeground(new Color(255, 255, 255));
 		mnRelatorio.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		mnRelatorio.setEnabled(false);
 		menuBar.add(mnRelatorio);
+		
+		// Relatorio -> pedidos
+		JMenuItem miPedido = new JMenuItem("Pedidos");
+		miPedido.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_DOWN_MASK));
+		mnRelatorio.add(miPedido);
 
 		// Ajuda
 		JMenu mnAjuda = new JMenu("Ajuda");
@@ -365,6 +367,13 @@ public class TelaPrincipal extends JFrame {
 		miConsultaEncomenda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miConsultaEncomendaAction();
+			}
+		});
+		
+		// relatorio
+		miPedido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				emitirRelatorio();
 			}
 		});
 
@@ -572,6 +581,16 @@ public class TelaPrincipal extends JFrame {
 				new CarrinhoConsulta().setVisible(true);
 			}
 		});
+	}
+	
+	private void emitirRelatorio() {
+		int opcao = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja emitir um relatório?", "Atenção",
+				JOptionPane.YES_NO_OPTION);
+		if (opcao == JOptionPane.YES_OPTION) {
+			List<Log> registros = new ArrayList<Log>();
+			registros = new Registro().consultaRelatorio();
+			new Registro().printaRelatorio(registros);
+		}
 	}
 
 	private void fechaTela() {

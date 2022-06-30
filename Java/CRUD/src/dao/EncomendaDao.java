@@ -113,6 +113,7 @@ public class EncomendaDao extends GenericDao{
 	        	            fornecedor.setId(registros.getInt("Fornecedor_idFornecedor"));
 	        	            encomenda.setFornecedor(fornecedor);
 	        	            
+	        	            encomenda.setQuantidade(registros.getInt("Quantidade"));
 	        	            encomenda.setSituacao(registros.getString("Situacao"));
 	        	            encomendas.add(encomenda);
 	        	        }
@@ -142,4 +143,8 @@ public class EncomendaDao extends GenericDao{
 	    	return insere(instrucaoSql, id);
 	    }
 
+	    public String entregueEncomenda(int id, int quantidade) {
+	    	instrucaoSql = "update encomenda set Quantidade = ? where id = ? ";
+	    	return insere(instrucaoSql, quantidade, id);
+	    }
 }

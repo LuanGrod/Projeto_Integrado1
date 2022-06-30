@@ -66,4 +66,9 @@ public class EncomendaController {
     	String erro = new EncomendaDao().excluiEncomenda(id);
         return erro;
     }
+    
+    public String entregueEncomenda(Integer id, Integer quantidade) {
+    	String erro = new EncomendaDao().entregueEncomenda(id, quantidade);
+        return erro;
+    }
 }

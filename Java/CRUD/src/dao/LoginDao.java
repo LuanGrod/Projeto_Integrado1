@@ -35,8 +35,6 @@ public class LoginDao extends GenericDao{
 				if(rs.next()) {
 					cargo = rs.getInt(4);
 					id = rs.getInt(1);
-					Registro log = new Registro();
-					log.emitirRegistro(log.adicionarRegistro(dataHora + " - Login[" + login + "]" + "\n"));
 					new CarrinhoDao().LimpaCarrinho();
 					conexao.close();
 				}else {

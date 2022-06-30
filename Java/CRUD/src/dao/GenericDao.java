@@ -31,8 +31,6 @@ public class GenericDao {
 				comando.execute(); 
 				comando.close(); 
 				ConnectionDatabase.getConexaoBd().close();
-				
-				new Registro().adicionarRegistro(dataHora + " - InserirUsuario\nInstruçãoSQL = " + instrucaoSql);
 			} else
 				return excecao;
 		} catch (Exception e) {

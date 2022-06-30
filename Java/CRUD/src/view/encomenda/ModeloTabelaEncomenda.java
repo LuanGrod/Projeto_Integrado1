@@ -75,18 +75,12 @@ public class ModeloTabelaEncomenda extends AbstractTableModel { // A classe abst
 				if (produtos != null) // Se existir pelo menos um cargo cadastrado.
 					for (Produto p : produtos)
 						if (p.getId() == encomenda.getProduto().getId())
-							// Ao ser carregado, o JTable chama automaticamente o método toString dos objetos Cargo para convertê-los  
-							// para String, pois o dado a ser exibido nele deve ser deste tipo. Como o método toString foi sobrescrito
-							// na classe Cargo, de modo a retornar a descrição do cargo, é este o dado que será exibido no JTable.
 							valor = p;
             	break;
             case 2: // Coluna fornecedor
 				if (fornecedores != null) // Se existir pelo menos um cargo cadastrado.
 					for (Fornecedor f : fornecedores)
 						if (f.getId() == encomenda.getFornecedor().getId())
-							// Ao ser carregado, o JTable chama automaticamente o método toString dos objetos Cargo para convertê-los  
-							// para String, pois o dado a ser exibido nele deve ser deste tipo. Como o método toString foi sobrescrito
-							// na classe Cargo, de modo a retornar a descrição do cargo, é este o dado que será exibido no JTable.
 							valor = f;
             	break;
             case 3: // Coluna quantidade
