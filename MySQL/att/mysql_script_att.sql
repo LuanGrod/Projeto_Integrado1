@@ -189,6 +189,7 @@ CREATE TABLE IF NOT EXISTS `CRUD`.`Encomenda` (
   `Produto_idProduto` INT NOT NULL,
   `Fornecedor_idFornecedor` INT NOT NULL,
   `Quantidade` INT NOT NULL,
+  `Situacao` varchar(45) not null,
   PRIMARY KEY (`id`),
   INDEX `fk_Produto_has_Fornecedor_Fornecedor1_idx` (`Fornecedor_idFornecedor` ASC) VISIBLE,
   INDEX `fk_Produto_has_Fornecedor_Produto1_idx` (`Produto_idProduto` ASC) VISIBLE,
