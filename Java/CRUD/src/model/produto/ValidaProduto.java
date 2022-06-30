@@ -24,12 +24,12 @@ public class ValidaProduto {
 		}
 		
 		
-		for(Produto p : produtos) {
+		/*for(Produto p : produtos) {
 			if (produto.getNome().equals(p.getNome())) {
 				errosValidacao.add("* Produto já existente.");
 				return errosValidacao;
 			}
-		}
+		}*/
 		
 		if(produto.getNome().length() < 2) {
 			errosValidacao.add("* O nome do produto deve ter pelo menos 2 caracteres");

@@ -179,7 +179,7 @@ public class AlteracaoProduto extends JDialog {
 			this.mtTabela.setValueAt(cbCategoria.getSelectedItem(), this.linhaSelecionada, 5);
 			this.setVisible(false); // Fecha a janela.
 		} else { // Se o primeiro elemento do ArrayList não for null.
-			String mensagem = "Não foi possível alterar o funcionário:\n";
+			String mensagem = "Não foi possível alterar o produto:\n";
 			for (String e : erros) // Cria uma mensagem contendo todos os erros armazenados no ArrayList.
 				mensagem = mensagem + e + "\n";
 			JOptionPane.showMessageDialog(this, mensagem, "Erros", JOptionPane.ERROR_MESSAGE);

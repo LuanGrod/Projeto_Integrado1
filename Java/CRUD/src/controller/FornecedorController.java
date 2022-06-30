@@ -41,7 +41,7 @@ public class FornecedorController {
 	}
 
 	public List<String> alteraFornecedor(Integer id, String  cnpj, String telefone, String email, String nome) {
-		recebeDadosFornecedor(id, cnpj, telefone, email, nome);
+		recebeDadosFornecedor(id, nome, cnpj, telefone, email);
 
 		// Se nenhum erro de validação for encontrado, tenta inserir o funcionário no banco.
 		if (erros.size() == 0)
@@ -51,6 +51,7 @@ public class FornecedorController {
 		// - Em caso de sucesso: null na 1ª posição; OU
 		// - Em caso de exceção: uma mensagem de exceção na 1ª posição; OU
 		// - Em caso de erro de validação: mensagens de erro iniciando na 1ª posição.
+		System.out.println(erros);
 		return erros;
 	}
 

@@ -15,11 +15,11 @@ public class ValidaCategoria {
 		
 		categorias = new ProdutoController().recuperaCategorias();
 		
-		for(Categoria cat : categorias) {
+		/*for(Categoria cat : categorias) {
 			if (c.getDescricao().equals(cat.getDescricao())) {
 				errosValidacao.add("* Categoria já existente.");
 			}
-		}
+		}*/
 		
 		if(c.getDescricao().length() < 2) {
 			errosValidacao.add("* O nome da categoria deve ter pelo menos 2 caracteres");

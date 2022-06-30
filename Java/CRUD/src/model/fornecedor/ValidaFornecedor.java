@@ -15,12 +15,13 @@ public class ValidaFornecedor {
 		fornecedores = new ArrayList<>();
 		fornecedores = new FornecedorController().consultaFornecedores();
 		
-		for(Fornecedor f : fornecedores) {
-			if(fornecedor.getCnpj().equals(f.getCnpj())) {
+		
+		/*for(Fornecedor f : fornecedores) {
+			if(cnpj.equals(f.getCnpj())) {
 				errosValidacao.add("* CNPJ já existente.");
 				return errosValidacao;
 			}
-		}
+		}*/
 		
 		if (!fornecedor.getCnpj().equals("")) {
 			if (fornecedor.getCnpj().length() < 6 || fornecedor.getCnpj().length() > 100)

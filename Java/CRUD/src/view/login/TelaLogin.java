@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +19,7 @@ import javax.swing.JTextField;
 
 import dao.LoginDao;
 import view.main.TelaPrincipal;
+import java.awt.Toolkit;
 
 
 @SuppressWarnings("serial")
@@ -50,6 +52,7 @@ public class TelaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaLogin() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Arthur\\Desktop\\Projeto Bd\\pngaaa.com-1392699.png"));
 		setResizable(false);
 		setBackground(Color.LIGHT_GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,6 +71,7 @@ public class TelaLogin extends JFrame {
 		lbSenha.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
 		tfUsuario = new JTextField();
+		tfUsuario.setForeground(Color.BLACK);
 		tfUsuario.setBounds(33, 104, 254, 23);
 		tfUsuario.setColumns(10);
 
@@ -76,12 +80,18 @@ public class TelaLogin extends JFrame {
 		btConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoginDao login = new LoginDao();
-				//recebe o cargo do login para fazer a gestão de acesso
+				//recebe o cargo do login para fazer a gestï¿½o de acesso
 				@SuppressWarnings("deprecation")
 				int cargo = login.validaLogin(tfUsuario.getText(), pfSenha.getText());
 				
 				if (login.getExcecao() == null) {
-					TelaPrincipal principal = new TelaPrincipal(cargo);
+					TelaPrincipal principal = null;
+					try {
+						principal = new TelaPrincipal(cargo);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					principal.setVisible(true);
 					fechaTela();
 					
@@ -105,17 +115,9 @@ public class TelaLogin extends JFrame {
 		cp.add(tfUsuario);
 
 		pfSenha = new JPasswordField();
+		pfSenha.setForeground(Color.BLACK);
 		pfSenha.setBounds(33, 188, 254, 23);
 		cp.add(pfSenha);
-
-		JLabel lbEsqueciSenha = new JLabel("(esqueci a senha)");
-		lbEsqueciSenha.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-		lbEsqueciSenha.setBounds(174, 216, 113, 14);
-		cp.add(lbEsqueciSenha);
 
 
 	}

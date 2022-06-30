@@ -52,13 +52,13 @@ public class CarrinhoConsulta extends JDialog {
 	
 	public CarrinhoConsulta() {
 		setTitle("Consulta Carrinho"); // Título da janela.
-		setSize(449, 656); // Tamanho da janela em pixels.
+		setSize(449, 700); // Tamanho da janela em pixels.
 		setLocationRelativeTo(null); // Centraliza a janela na tela.
 		setModal(true); // Torna a janela "modal" (janela que não 
 		
 		JButton btnFecharPedido = new JButton("Fechar Pedido");
 		btnFecharPedido.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnFecharPedido.setBounds(136, 552, 161, 43);
+		btnFecharPedido.setBounds(136, 585, 161, 43);
 		setLocationRelativeTo(null);
 
 		
@@ -76,6 +76,7 @@ public class CarrinhoConsulta extends JDialog {
 		
 		
 		tbCarrinho = new JTable(mtTabela);
+		tbCarrinho.setBackground(Color.WHITE);
 		tbCarrinho.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		spTabela = new JScrollPane(tbCarrinho);
 		spTabela.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -120,16 +121,6 @@ public class CarrinhoConsulta extends JDialog {
 		btnExcluiProdCarrinho.setBounds(246, 275, 126, 36);
 		getContentPane().add(btnExcluiProdCarrinho);
 		
-		lblValorTotal = new JLabel("Valor Total: R$");
-		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblValorTotal.setBounds(222, 513, 84, 14);
-		getContentPane().add(lblValorTotal);
-		
-		JLabel lblNewLabel = new JLabel("Valor Total: ");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(147, 513, 67, 14);
-		getContentPane().add(lblNewLabel);
-		
 		tfAlteraQntd = new JTextField();
 		tfAlteraQntd.setBounds(80, 322, 86, 20);
 		getContentPane().add(tfAlteraQntd);
@@ -163,6 +154,26 @@ public class CarrinhoConsulta extends JDialog {
 		tfNome.setHorizontalAlignment(SwingConstants.CENTER);
 		tfNome.setBounds(70, 64, 171, 14);
 		panelCliente.add(tfNome);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(65, 105, 225));
+		panel.setBounds(63, 507, 307, 57);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Valor Total: ");
+		lblNewLabel.setBounds(107, 7, 92, 15);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(lblNewLabel);
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		lblValorTotal = new JLabel("Valor Total: R$");
+		lblValorTotal.setBounds(112, 27, 82, 19);
+		lblValorTotal.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(lblValorTotal);
+		lblValorTotal.setForeground(new Color(255, 255, 255));
+		lblValorTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
 		atualizaValorTotal();
 
 		btnAltQntd.addActionListener(new ActionListener() {

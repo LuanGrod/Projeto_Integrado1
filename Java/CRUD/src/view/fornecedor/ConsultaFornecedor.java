@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import controller.FornecedorController;
 import model.fornecedor.Fornecedor;
+import javax.swing.ScrollPaneConstants;
 
 
 @SuppressWarnings("serial")
@@ -58,14 +59,15 @@ public class ConsultaFornecedor extends JDialog {
 		// Inclui o modelo da tabela no JTable. Nesse momento, são chamados os métodos da classe FuncionarioModeloTabela.
 		tbFornecedor = new JTable(mtTabela);
 		spTabela = new JScrollPane(tbFornecedor); // Vincula o JTable ao painel de rolagem.
+		spTabela.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		tbFornecedor.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // Desabilita o dimensionamento automático das colunas.
 		// Configura a largura de cada coluna do JTable (em pixels).
 		tbFornecedor.getColumnModel().getColumn(0).setPreferredWidth(50);
-		tbFornecedor.getColumnModel().getColumn(1).setPreferredWidth(150);
+		tbFornecedor.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tbFornecedor.getColumnModel().getColumn(2).setPreferredWidth(100);
-		tbFornecedor.getColumnModel().getColumn(3).setPreferredWidth(200);
-		tbFornecedor.getColumnModel().getColumn(4).setPreferredWidth(200);
+		tbFornecedor.getColumnModel().getColumn(3).setPreferredWidth(180);
+		tbFornecedor.getColumnModel().getColumn(4).setPreferredWidth(215);
 		
 		// Configura a fonte do cabeçalho do JTable.
 		tbFornecedor.getTableHeader().setFont(new Font(null, Font.BOLD, 12));
