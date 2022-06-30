@@ -88,9 +88,18 @@ public class ProdutoController  {
 		// - Em caso de erro de validação: mensagens de erro iniciando na 1ª posição.
 		return erros;
     }
+    
+    public void ListaDePesquisa(String tf) {
+    	new ProdutoDao().ListaDePesquisa(tf);
+    }
 
     public String excluiProduto(Integer id) {
     	String erro = new ProdutoDao().excluiProduto(id);
         return erro;
     }
+
+
+	public Produto consultaProdutoByNome(String nome) {
+		return new ProdutoDao().consultaProdutoByNome(nome);
+	}
 }

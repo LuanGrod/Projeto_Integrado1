@@ -86,12 +86,7 @@ public class TelaLogin extends JFrame {
 				
 				if (login.getExcecao() == null) {
 					TelaPrincipal principal = null;
-					try {
-						principal = new TelaPrincipal(cargo);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					principal = new TelaPrincipal(cargo);
 					principal.setVisible(true);
 					fechaTela();
 					

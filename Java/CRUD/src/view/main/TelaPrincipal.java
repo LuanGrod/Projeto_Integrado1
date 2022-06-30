@@ -14,15 +14,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
@@ -39,11 +42,13 @@ import view.encomenda.ConsultaEncomenda;
 import view.fornecedor.CadastroFornecedor;
 import view.fornecedor.ConsultaFornecedor;
 import view.itemPedido.CarrinhoConsulta;
+import view.login.Pesquisa;
 import view.produto.CadastroProduto;
 import view.produto.ConsultaProduto;
 import view.usuario.CadastroUsuario;
 import view.usuario.ConsultaUsuario;
 import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame {
@@ -54,26 +59,32 @@ public class TelaPrincipal extends JFrame {
 	private Produto produto;
 	public static JButton btnCarrinho;
 	private static Boolean statusCarrinho;
+	private static DefaultListModel<String> modelo;
+	private JList<String> list;
 
-	/**
-	 * Create the frame.
-	 * 
-	 * @throws IOException
-	 */
-	public TelaPrincipal(int cargo) throws IOException {
+
+	public TelaPrincipal(int cargo) {
 		setBackground(new Color(255, 255, 255));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Arthur\\Desktop\\Projeto Bd\\Projeto_Integrado1\\Java\\CRUD\\img\\pngaaa.com-1392699.png"));
-		// setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("ERP");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 700);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
-
+		
+		modelo = new DefaultListModel<>();
+		
+		list = new JList<String>(modelo);
+		list.setBorder(new LineBorder(new Color(0, 0, 0)));
+		list.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		list.setBounds(216, 262, 237, 81);
+		contentPane.add(list);
+		list.setVisible(false);		
+		
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setForeground(new Color(255, 255, 255));
@@ -244,12 +255,17 @@ public class TelaPrincipal extends JFrame {
 		lblNewLabel.setBounds(215, 11, 96, 22);
 		panel.add(lblNewLabel);
 
-		JButton btnConsultar = new JButton("Buscar");
+		JButton btnConsultar = new JButton("Buscar por ID");
 		btnConsultar.setBackground(UIManager.getColor("Button.background"));
 		btnConsultar.setSelectedIcon(null);
 		btnConsultar.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnConsultar.setBounds(588, 56, 75, 33);
+		btnConsultar.setBounds(588, 56, 127, 33);
 		panel.add(btnConsultar);
+		
+		JLabel lblNewLabel_4 = new JLabel("*Pressione enter para buscar produto pelo nome");
+		lblNewLabel_4.setForeground(Color.WHITE);
+		lblNewLabel_4.setBounds(215, 40, 339, 14);
+		panel.add(lblNewLabel_4);
 		
 		
 		
@@ -378,6 +394,27 @@ public class TelaPrincipal extends JFrame {
 					lblCarrinhoVazio.setVisible(true);
 			}
 		});
+		
+		
+
+		tfIdProd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				list.setVisible(true);
+				System.out.println(tfIdProd.getText());
+				new ProdutoController().ListaDePesquisa(tfIdProd.getText());
+				
+				
+			}
+		});
+		
+
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				list.setVisible(false);
+				EnterConsultarAction();
+			}
+		});
 	}
 
 	// metodos
@@ -387,9 +424,9 @@ public class TelaPrincipal extends JFrame {
 			@Override
 			public void run() {
 				new CadastroCliente().setVisible(true);
-			}
-		});
+		}});
 	}
+	
 
 	private void miConsultaClienteAction() {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -474,9 +511,29 @@ public class TelaPrincipal extends JFrame {
 				new ConsultaEncomenda().setVisible(true);
 			}
 		});
+		
+		
+	}
+	
+	private void EnterConsultarAction() {
+		int Linha = list.getSelectedIndex();
+		produto = new ProdutoController().consultaProdutoByNome(modelo.get(Linha));
+
+		if (new ProdutoController().getExcecao() == null) {
+			panelProd.setVisible(true);
+			btnCarrinho.setVisible(true);
+			lblProd.setText(produto.getNome());
+			lblQntd.setText("Quantidade: " + String.valueOf(produto.getQtdEstoque()));
+			lblPreco.setText("Preço: " + String.valueOf(produto.getPrecoVenda()));
+
+		} else {
+			String mensagem = "Esse produto não existe";
+			JOptionPane.showMessageDialog(this, mensagem, "Erros", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void btnConsultarAction() {
+		list.setVisible(false);
 		produto = new ProdutoController().consultaProdutoById(Integer.parseInt(tfIdProd.getText()));
 		if (new ProdutoController().getExcecao() == null) {
 			panelProd.setVisible(true);
@@ -528,5 +585,13 @@ public class TelaPrincipal extends JFrame {
 	public static void btnCarrinhoEnabled(Boolean b) {
 		btnCarrinho.setEnabled(b);
 		statusCarrinho = b;
+	}
+	
+	public static void insereProdutoLista(String produto) {
+		modelo.addElement(produto);
+	}
+	
+	public static void limpaPesquisa() {
+		modelo.clear();
 	}
 }
