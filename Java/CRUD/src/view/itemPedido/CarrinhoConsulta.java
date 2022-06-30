@@ -26,6 +26,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import controller.CarrinhoController;
+import controller.ItemPedidoController;
 import controller.PedidoController;
 import controller.UsuarioController;
 import model.cliente.Cliente;
@@ -276,21 +277,26 @@ public class CarrinhoConsulta extends JDialog {
 	
 	private void btnFecharPedidoAction() {
 		//new itemPedido, vai receber a chave do pedido, do produto e a quantidade de cada produto.
-		List<String> erros = new ArrayList<String>();
+		List<String> errosPedido = new ArrayList<String>();
+		String erroItem = null;
 				
-		if( cliente == null) {
-			erros = new PedidoController().inserePedido(Calendar.getInstance(), new UsuarioController().getUsuarioAtual());
+		if(cliente == null) {
+			errosPedido = new PedidoController().inserePedido(Calendar.getInstance(), new UsuarioController().getUsuarioAtual());
 		} else {
-			erros = new PedidoController().inserePedidoComCliente(Calendar.getInstance(), new UsuarioController().getUsuarioAtual(), cliente);
+			errosPedido = new PedidoController().inserePedidoComCliente(Calendar.getInstance(), new UsuarioController().getUsuarioAtual(), cliente);
 		}
-			if (erros.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
+		
+		erroItem =  new ItemPedidoController().insereItemPedidoDoCarrinho();
+		System.out.println(erroItem);
+		
+			if (errosPedido.get(0) == null) { // Se o primeiro elemento do ArrayList for null.
 				JOptionPane.showMessageDialog(this, "Pedido feito com sucesso!", 
 						                      "Informação", JOptionPane.INFORMATION_MESSAGE);
 				this.setVisible(false); // Fecha a janela.
 				TelaPrincipal.btnCarrinhoEnabled(false);
 			} else { // Se o primeiro elemento do ArrayList não for null.
 				String mensagem = "Não foi possível realizar o pedido:\n";
-				for (String e : erros) // Cria uma mensagem contendo todos os erros armazenados no ArrayList.
+				for (String e : errosPedido) // Cria uma mensagem contendo todos os erros armazenados no ArrayList.
 					mensagem = mensagem + e + "\n";
 				JOptionPane.showMessageDialog(this, mensagem, "Erros", JOptionPane.ERROR_MESSAGE);
 			}

@@ -204,6 +204,35 @@ CREATE TABLE IF NOT EXISTS `CRUD`.`Encomenda` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+alter table encomenda
+add column Situacao varchar(20);
+
+create table Carrinho(
+quantidade int not null,
+Produto_idProduto int not null,
+foreign key (Produto_idProduto) references Produto(idProduto)
+);
+
+CREATE VIEW lastPedido AS
+SELECT  max(idPedido)  as maxId
+FROM PEDIDO;
+
+DROP TRIGGER IF EXISTS `crud`.`pedido_has_produto_AFTER_INSERT`;
+DELIMITER $$
+USE `crud`$$
+CREATE DEFINER=`root`@`localhost` TRIGGER `pedido_has_produto_AFTER_INSERT` AFTER INSERT ON `pedido_has_produto` FOR EACH ROW BEGIN
+	call AtualizaQuantidade(new.quantidade, new.Produto_idProduto); 
+END$$
+DELIMITER ;
+
+DELIMITER $$
+USE `crud`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AtualizaQuantidade`(qntd int, idProduto int)
+BEGIN
+	update produto as prod set prod.qntestoque = prod.qntestoque - qntd where prod.idProduto = idProduto; 
+END$$
+
+DELIMITER ;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

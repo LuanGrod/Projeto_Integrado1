@@ -72,13 +72,18 @@ public class ItemPedidoDao extends GenericDao{
                 	produto.setId(registros.getInt("Produto_idProduto"));
                 	ip.setProduto(produto);
                 	ip.setPedido(new PedidoDao().getUltimoPedido());
-                	insereItemPedido(ip);
+                	excecao = insereItemPedido(ip);
                 }
                 new CarrinhoDao().LimpaCarrinho();
+                
 			}
 		}catch(Exception e) {
 			excecao = "Tipo de Exceção: " + e.getClass().getSimpleName() + "\nMensagem: " + e.getMessage();
 	}
 	return excecao;
+	}
+	
+	public String getExcecao() { 
+		return excecao;
 	}
 }

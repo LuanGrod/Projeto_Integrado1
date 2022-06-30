@@ -17,9 +17,7 @@ public class PedidoController {
 	public List<String> inserePedido(Calendar data, Usuario usuario) {
 		recebeDadosUsuario(null, data, usuario);
 		
-		erros.add(new PedidoDao().inserePedido(pedido));
-		erros.add(new ItemPedidoController().insereItemPedidoDoCarrinho()); 
-			
+		erros.add(new PedidoDao().inserePedido(pedido));			
 		return erros;
 	}
 
@@ -36,7 +34,6 @@ public class PedidoController {
 		recebeDadosUsuario(null, data, usuario, cliente);
 		
 		erros.add(new PedidoDao().inserePedidoComCliente(pedido));
-		erros.add(new ItemPedidoController().insereItemPedidoDoCarrinho()); 
 			
 		return erros;
 	}
