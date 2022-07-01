@@ -44,7 +44,7 @@ SELECT  max(idPedido)  as maxId
 FROM PEDIDO;
 
 -- -----------------------------------------------------
--- Table VIEW - lastPedido
+-- Table VIEW - Relatorio
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `crud`.`relatorio`;
 CREATE VIEW relatorio AS

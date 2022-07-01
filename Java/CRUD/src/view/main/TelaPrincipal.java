@@ -46,6 +46,8 @@ import view.usuario.CadastroUsuario;
 import view.usuario.ConsultaUsuario;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+import javax.swing.JTextPane;
+import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class TelaPrincipal extends JFrame {
@@ -58,6 +60,7 @@ public class TelaPrincipal extends JFrame {
 	private static Boolean statusCarrinho;
 	private static DefaultListModel<String> modelo;
 	private JList<String> list;
+	private JTextArea txtProd;
 
 
 	public TelaPrincipal(int cargo) {
@@ -203,11 +206,6 @@ public class TelaPrincipal extends JFrame {
 		panelProd.setVisible(false);
 		panelProd.setLayout(null);
 
-		lblProd = new JLabel("New label");
-		lblProd.setBounds(223, 48, 121, 32);
-		lblProd.setFont(new Font("Tahoma", Font.BOLD, 16));
-		panelProd.add(lblProd);
-
 		JButton btnAddCarrinho = new JButton("Add");
 		btnAddCarrinho.setBackground(UIManager.getColor("Button.background"));
 		btnAddCarrinho.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -216,12 +214,12 @@ public class TelaPrincipal extends JFrame {
 
 		lblQntd = new JLabel("Quantidade: ");
 		lblQntd.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblQntd.setBounds(395, 40, 111, 14);
+		lblQntd.setBounds(395, 40, 129, 23);
 		panelProd.add(lblQntd);
 
 		lblPreco = new JLabel("Preco:");
 		lblPreco.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPreco.setBounds(395, 80, 111, 14);
+		lblPreco.setBounds(395, 80, 120, 23);
 		panelProd.add(lblPreco);
 
 		tfQntd = new JTextField("1");
@@ -229,6 +227,17 @@ public class TelaPrincipal extends JFrame {
 		tfQntd.setBounds(541, 56, 39, 20);
 		panelProd.add(tfQntd);
 		tfQntd.setColumns(10);
+		
+		txtProd = new JTextArea();
+		txtProd.setFont(new Font("Calibri", Font.BOLD, 24));
+		txtProd.setBackground(new Color(240, 240, 240));
+		txtProd.setBounds(106, 41, 261, 80);
+		panelProd.add(txtProd);
+		txtProd.setText("produto");
+		txtProd.setEditable(false); 
+		txtProd.setLineWrap(true);
+		
+		
 
 		btnCarrinho = new JButton("Carrinho");
 		btnCarrinho.setBackground(UIManager.getColor("Button.background"));
@@ -286,6 +295,8 @@ public class TelaPrincipal extends JFrame {
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblNewLabel_3.setBounds(216, 115, 225, 19);
 		contentPane.add(lblNewLabel_3);
+		
+				
 		
 
 		btnConsultar.addActionListener(new ActionListener() {
@@ -531,7 +542,7 @@ public class TelaPrincipal extends JFrame {
 		if (new ProdutoController().getExcecao() == null) {
 			panelProd.setVisible(true);
 			btnCarrinho.setVisible(true);
-			lblProd.setText(produto.getNome());
+			txtProd.setText(produto.getNome());
 			lblQntd.setText("Quantidade: " + String.valueOf(produto.getQtdEstoque()));
 			lblPreco.setText("Preço: " + String.valueOf(produto.getPrecoVenda()));
 
@@ -547,7 +558,7 @@ public class TelaPrincipal extends JFrame {
 		if (new ProdutoController().getExcecao() == null) {
 			panelProd.setVisible(true);
 			btnCarrinho.setVisible(true);
-			lblProd.setText(produto.getNome());
+			txtProd.setText(produto.getNome());
 			lblQntd.setText("Quantidade: " + String.valueOf(produto.getQtdEstoque()));
 			lblPreco.setText("Preço: " + String.valueOf(produto.getPrecoVenda()));
 
